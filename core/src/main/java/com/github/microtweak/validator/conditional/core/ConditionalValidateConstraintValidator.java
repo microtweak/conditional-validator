@@ -19,7 +19,7 @@ import static com.github.microtweak.validator.conditional.core.internal.Annotati
 import static com.github.microtweak.validator.conditional.core.internal.AnnotationHelper.hasAnyAnnotationWithAnnotation;
 
 @Slf4j
-public class ConditionalConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
+public class ConditionalValidateConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
 
     @Inject
     private ValidatorFactory factory;
