@@ -1,14 +1,13 @@
 package com.github.microtweak.validator.conditional.core;
 
 import com.github.microtweak.validator.conditional.core.internal.ConditionalDescriptor;
+import com.github.microtweak.validator.conditional.core.spi.ValidatorFactoryResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.el.ELProcessor;
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -21,9 +20,7 @@ import static com.github.microtweak.validator.conditional.core.internal.Annotati
 @Slf4j
 public class ConditionalValidateConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
 
-    @Inject
     private ValidatorFactory factory;
-
     private ELProcessor elProcessor;
 
     private List<ConditionalDescriptor> conditionalDescriptors;
@@ -32,11 +29,7 @@ public class ConditionalValidateConstraintValidator implements ConstraintValidat
     public void initialize(ConditionalValidate conditionalConstraint) {
         log.trace("Initializing {} for {}", getClass().getSimpleName(), conditionalConstraint.annotationType());
 
-        if (factory == null) {
-            log.debug("No ValidatorFactory injected, building default one");
-            factory = Validation.buildDefaultValidatorFactory();
-        }
-
+        factory = ValidatorFactoryResolver.getInstance().getValidatorFactory();
         elProcessor = new ELProcessor();
     }
 
@@ -71,6 +64,8 @@ public class ConditionalValidateConstraintValidator implements ConstraintValidat
         if (conditionalDescriptors != null) {
             return;
         }
+
+        FieldUtils.getAllFieldsList( conditionalContextType );
 
         conditionalDescriptors = FieldUtils.getAllFieldsList( conditionalContextType ).parallelStream()
                 .filter(f -> hasAnyAnnotationWithAnnotation(f, ConditionalConstraint.class))

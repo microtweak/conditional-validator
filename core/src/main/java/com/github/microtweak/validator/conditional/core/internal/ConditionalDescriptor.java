@@ -78,7 +78,7 @@ public class ConditionalDescriptor {
     }
 
     public void initialize(ConstraintValidatorFactory factory) {
-        Class<? extends ConstraintValidator> validatorClass = ConstraintDescriptorFactory.getInstance().of(actualConstraint)
+        Class<? extends ConstraintValidator> validatorClass = ConstraintDescriptorFactory.getInstance().of(actualConstraint, field)
                 .getConstraintValidatorClasses().stream()
                 .filter(this::isCapableValidator)
                 .findFirst()

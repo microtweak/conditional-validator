@@ -4,6 +4,7 @@ import com.github.microtweak.validator.conditional.core.exception.UnsupportedBea
 
 import javax.validation.metadata.ConstraintDescriptor;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.ServiceLoader;
 
 public abstract class ConstraintDescriptorFactory {
@@ -26,6 +27,6 @@ public abstract class ConstraintDescriptorFactory {
         return INSTANCE;
     }
 
-    public abstract  <T extends Annotation> ConstraintDescriptor<T> of(T constraint);
+    public abstract  <T extends Annotation, H extends AnnotatedElement> ConstraintDescriptor<T> of(T constraint, H host);
 
 }
