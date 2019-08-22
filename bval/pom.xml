@@ -2,41 +2,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>conditional-validator</artifactId>
         <groupId>com.github.microtweak</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>conditional-validator-core</artifactId>
+    <artifactId>conditional-validator-bval</artifactId>
 
-    <name>Conditional Validator - Core</name>
+    <name>Conditional Validator - Implementation for Apache BVal</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.microtweak</groupId>
+            <artifactId>conditional-validator-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.bval</groupId>
+            <artifactId>bval-jsr</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.bval</groupId>
+            <artifactId>bval-extras</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
         </dependency>
 
         <dependency>
@@ -52,11 +60,12 @@
                 <artifactId>serviceloader-maven-plugin</artifactId>
                 <configuration>
                     <services>
-                        <param>com.github.microtweak.validator.conditional.core.spi.ValidatorFactoryResolver</param>
+                        <param>com.github.microtweak.validator.conditional.core.spi.ConstraintDescriptorFactory</param>
                     </services>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>

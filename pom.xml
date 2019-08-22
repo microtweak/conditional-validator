@@ -18,6 +18,7 @@
     <modules>
         <module>core</module>
         <module>hv</module>
+        <module>bval</module>
     </modules>
 
     <name>Conditional Validator</name>
@@ -139,6 +140,7 @@
                 <groupId>org.apache.bval</groupId>
                 <artifactId>bval-extras</artifactId>
                 <version>${bval.version}</version>
+                <scope>provided</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>org.apache.bval</groupId>
