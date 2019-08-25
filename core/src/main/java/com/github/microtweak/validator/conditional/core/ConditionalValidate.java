@@ -15,12 +15,21 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ConditionalValidate {
 
+    /**
+     * @deprecated Ignored/not used by ConditionalValidation. But Bean Validation requires that every constraint has the "message" attribute.
+     */
     @Deprecated
     String message() default "";
 
+    /**
+     * @deprecated Ignored/not used by ConditionalValidation. But Bean Validation requires that every constraint has the "groups" attribute.
+     */
     @Deprecated
     Class<?>[] groups() default { };
 
+    /**
+     * @deprecated Ignored/not used by ConditionalValidation. But Bean Validation requires that every constraint has the "payload" attribute.
+     */
     @Deprecated
     Class<? extends Payload>[] payload() default { };
 
