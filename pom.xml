@@ -16,9 +16,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>core</module>
-        <module>hv</module>
-        <module>bval</module>
+        <module>validator-core</module>
+        <module>validator-hv</module>
+        <module>validator-bval</module>
     </modules>
 
     <name>Conditional Validator</name>
