@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.github.microtweak.validator.conditional.core.internal.AnnotationHelper.getAnnotationsWithAnnotation;
-import static com.github.microtweak.validator.conditional.core.internal.AnnotationHelper.hasAnyAnnotationWithAnnotation;
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 @Slf4j
-public class ConditionalValidateConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
+public class DelegatedConditionalConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
 
     private ValidatorFactory factory;
     private ELProcessor elProcessor;
@@ -65,12 +65,14 @@ public class ConditionalValidateConstraintValidator implements ConstraintValidat
             return;
         }
 
-        FieldUtils.getAllFieldsList( conditionalContextType );
-
         conditionalDescriptors = FieldUtils.getAllFieldsList( conditionalContextType ).parallelStream()
-                .filter(f -> hasAnyAnnotationWithAnnotation(f, ConditionalConstraint.class))
                 .flatMap(f -> {
                     Annotation[] conditionalConstraints = getAnnotationsWithAnnotation(f, ConditionalConstraint.class);
+
+                    if (isEmpty( conditionalConstraints )) {
+                        return Stream.empty();
+                    }
+
                     return Stream.of( conditionalConstraints ).map(a -> new ConditionalDescriptor(f, a));
                 })
                 .peek(descriptor -> descriptor.initialize(factory.getConstraintValidatorFactory()))

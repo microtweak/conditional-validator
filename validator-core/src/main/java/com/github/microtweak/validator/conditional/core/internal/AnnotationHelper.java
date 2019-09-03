@@ -2,13 +2,13 @@ package com.github.microtweak.validator.conditional.core.internal;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Repeatable;
 import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-import static org.apache.commons.lang3.ArrayUtils.contains;
-import static org.apache.commons.lang3.ArrayUtils.toArray;
+import static org.apache.commons.lang3.ArrayUtils.*;
 
 public final class AnnotationHelper {
 
@@ -57,17 +57,26 @@ public final class AnnotationHelper {
         return (A) Proxy.newProxyInstance(annotationType.getClassLoader(), toArray(annotationType), h);
     }
 
-    public static <A extends Annotation> boolean hasAnyAnnotationWithAnnotation(AnnotatedElement element, Class<A> annotationType) {
-        for (Annotation an : element.getAnnotations()) {
-            if (an.annotationType().isAnnotationPresent(annotationType)) {
-                return true;
-            }
+    public static Annotation[] unwrapRepeatableAnnotations(Annotation annotation) {
+        try {
+            Method attr = annotation.annotationType().getDeclaredMethod("value");
+
+            return Optional.of( attr.getReturnType() )
+                    .filter(r -> r.isArray())
+                    .filter(r -> r.getComponentType().isAnnotationPresent(Repeatable.class))
+                    .map(r -> (Annotation[]) readAttribute(annotation, attr))
+                    .orElse( new Annotation[0] );
+        } catch (NoSuchMethodException e) {
+            return new Annotation[0];
         }
-        return false;
     }
 
     public static <A extends Annotation> Annotation[] getAnnotationsWithAnnotation(AnnotatedElement element, Class<A> annotationType) {
         return Stream.of( element.getAnnotations() )
+                .flatMap(a -> {
+                    Annotation[] repeatables = unwrapRepeatableAnnotations(a);
+                    return isNotEmpty(repeatables) ? Stream.of(repeatables) : Stream.of(a);
+                })
                 .filter(a -> a.annotationType().isAnnotationPresent(annotationType))
                 .toArray(Annotation[]::new);
     }
