@@ -1,6 +1,5 @@
 package com.github.microtweak.validator.conditional.core.spi;
 
-import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -20,6 +19,7 @@ public abstract class ValidatorFactoryResolver {
 
                 INSTANCE = resolvers.stream()
                         .sorted( Comparator.comparing( ValidatorFactoryResolver::getOrdinal ).reversed() )
+                        .filter(ValidatorFactoryResolver::isSupported)
                         .findFirst()
                         .get();
             }
@@ -29,29 +29,8 @@ public abstract class ValidatorFactoryResolver {
 
     public abstract int getOrdinal();
 
+    public abstract boolean isSupported();
+
     public abstract ValidatorFactory getValidatorFactory();
-
-
-
-
-
-    public static class DefaultImpl extends  ValidatorFactoryResolver {
-
-        private ValidatorFactory factory;
-
-        @Override
-        public int getOrdinal() {
-            return 100;
-        }
-
-        @Override
-        public synchronized ValidatorFactory getValidatorFactory() {
-            if (factory == null) {
-                factory = Validation.buildDefaultValidatorFactory();
-            }
-            return factory;
-        }
-
-    }
 
 }
