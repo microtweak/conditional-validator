@@ -19,6 +19,7 @@
         <module>validator-core</module>
         <module>validator-hv</module>
         <module>validator-bval</module>
+        <module>container-cdi</module>
     </modules>
 
     <name>Conditional Validator</name>
