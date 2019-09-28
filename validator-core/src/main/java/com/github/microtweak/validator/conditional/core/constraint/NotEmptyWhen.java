@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @ConditionalConstraint(NotEmpty.class)
 @Repeatable(NotEmptyWhen.List.class)
 @Documented
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+@Target({ METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface NotEmptyWhen {
 
@@ -28,7 +28,7 @@ public @interface NotEmptyWhen {
 
     Class<? extends Payload>[] payload() default { };
 
-    @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+    @Target({ METHOD, FIELD })
     @Retention(RUNTIME)
     @Documented
     @interface List {

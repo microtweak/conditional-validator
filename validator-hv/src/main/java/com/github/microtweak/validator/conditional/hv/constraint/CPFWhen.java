@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @ConditionalConstraint(CPF.class)
 @Repeatable(CPFWhen.List.class)
 @Documented
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+@Target({ METHOD, FIELD })
 @Retention(RUNTIME)
 public @interface CPFWhen {
 
@@ -27,7 +27,7 @@ public @interface CPFWhen {
 
     Class<? extends Payload>[] payload() default { };
 
-    @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+    @Target({ METHOD, FIELD })
     @Retention(RUNTIME)
     @Documented
     @interface List {
