@@ -64,14 +64,6 @@ public class ConditionalDescriptor {
         return field.getName();
     }
 
-    private Object extractValueFromMember(Object obj) {
-        try {
-            return field.get(obj);
-        } catch (IllegalAccessException e) {
-            return ExceptionUtils.rethrow(e);
-        }
-    }
-
     private Annotation createConstraintBy(Annotation conditionalConstraint, Class<? extends Annotation> targetConstraint) {
         Map<String, Object> attributes = AnnotationHelper.readAllAtributeExcept(conditionalConstraint, "expression");
         return AnnotationHelper.createAnnotation(targetConstraint, attributes);
@@ -93,9 +85,16 @@ public class ConditionalDescriptor {
         return TypeUtils.getRawType(typeVar, clazz).isAssignableFrom( field.getType() );
     }
 
-    public boolean isValid(Object parent, ConstraintValidatorContext context) {
-        Object v = extractValueFromMember(parent);
-        return validator.isValid(v, context);
+    public boolean isValid(Object bean, ConstraintValidatorContext context) {
+        Object value = null;
+
+        try {
+            value = field.get(bean);
+        } catch (IllegalAccessException e) {
+            ExceptionUtils.rethrow(e);
+        }
+
+        return validator.isValid(value, context);
     }
 
 }
