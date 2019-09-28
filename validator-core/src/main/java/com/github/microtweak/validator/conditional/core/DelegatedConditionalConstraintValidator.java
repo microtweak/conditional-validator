@@ -64,7 +64,7 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
 
         conditionalDescriptors = FieldUtils.getAllFieldsList( conditionalContextType ).parallelStream()
                 .flatMap(f -> {
-                    Annotation[] conditionalConstraints = getAnnotationsWithAnnotation(f, ConditionalConstraint.class);
+                    Annotation[] conditionalConstraints = getAnnotationsWithAnnotation(f, WhenActivatedValidateAs.class);
 
                     if (isEmpty( conditionalConstraints )) {
                         return Stream.empty();

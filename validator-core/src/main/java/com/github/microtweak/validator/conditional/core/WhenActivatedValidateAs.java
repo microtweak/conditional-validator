@@ -9,7 +9,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({ ANNOTATION_TYPE })
 @Retention(RUNTIME)
-public @interface ConditionalConstraint {
+public @interface WhenActivatedValidateAs {
 
     Class<? extends Annotation> value();
 

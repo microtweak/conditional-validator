@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.ConditionalConstraint;
+import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Payload;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@ConditionalConstraint(CPF.class)
+@WhenActivatedValidateAs(CPF.class)
 @Repeatable(CPFWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

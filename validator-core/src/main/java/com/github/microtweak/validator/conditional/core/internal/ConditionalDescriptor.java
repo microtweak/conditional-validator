@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.internal;
 
-import com.github.microtweak.validator.conditional.core.ConditionalConstraint;
+import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import com.github.microtweak.validator.conditional.core.spi.ConstraintDescriptorFactory;
 import lombok.Getter;
 import lombok.ToString;
@@ -45,10 +45,10 @@ public class ConditionalDescriptor {
             throw new IllegalArgumentException("The conditional constraint " + conditional.annotationType() + " does not have the attribute \"expression\"!");
         }
 
-        Class<? extends Annotation> actualConstraintType = conditional.annotationType().getAnnotation(ConditionalConstraint.class).value();
+        Class<? extends Annotation> actualConstraintType = conditional.annotationType().getAnnotation(WhenActivatedValidateAs.class).value();
 
         if (actualConstraintType == null) {
-            throw new IllegalArgumentException("Conditional constraint is not annotated with " + ConditionalConstraint.class + "!");
+            throw new IllegalArgumentException("Conditional constraint is not annotated with " + WhenActivatedValidateAs.class + "!");
         }
 
         actualConstraint = createConstraintBy(conditional, actualConstraintType);
