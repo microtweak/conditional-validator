@@ -15,6 +15,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ConditionalValidate {
 
+    Class<?>[] contextClasses() default {};
+
     /**
      * @deprecated Ignored/not used by ConditionalValidation. But Bean Validation requires that every constraint has the "message" attribute.
      */

@@ -1,7 +1,6 @@
 package com.github.microtweak.validator.conditional.core.internal;
 
 import com.github.microtweak.validator.conditional.core.ConditionalConstraint;
-import com.github.microtweak.validator.conditional.core.exception.InvalidConditionalExpressionException;
 import com.github.microtweak.validator.conditional.core.spi.ConstraintDescriptorFactory;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
-import javax.el.ELProcessor;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorFactory;
@@ -24,6 +22,8 @@ import static com.github.microtweak.validator.conditional.core.internal.Annotati
 public class ConditionalDescriptor {
 
     private Field field;
+
+    @Getter
     private String expression;
 
     @Getter
@@ -91,16 +91,6 @@ public class ConditionalDescriptor {
     private boolean isCapableValidator(Class<? extends ConstraintValidator<?, ?>> clazz) {
         TypeVariable<?> typeVar = ConstraintValidator.class.getTypeParameters()[1];
         return TypeUtils.getRawType(typeVar, clazz).isAssignableFrom( field.getType() );
-    }
-
-    public boolean isConstraintEnabled(ELProcessor processor) {
-        Object result = processor.eval(expression);
-
-        if (!Boolean.class.isInstance(result)) {
-            throw new InvalidConditionalExpressionException("The expression \"" + expression + "\" should return boolean!");
-        }
-
-        return Boolean.class.cast( result );
     }
 
     public boolean isValid(Object parent, ConstraintValidatorContext context) {

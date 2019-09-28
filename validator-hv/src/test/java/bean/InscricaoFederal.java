@@ -21,8 +21,8 @@ public class InscricaoFederal {
     private Tipo tipo;
 
     @Setter
-    @CPFWhen(expression = "this.isCpf()")
-    @CNPJWhen(expression = "this.isCnpj()")
+    @CPFWhen(expression = "self.isCpf()")
+    @CNPJWhen(expression = "self.isCnpj()")
     private String numero;
 
     public boolean isCpf() {

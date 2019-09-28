@@ -5,7 +5,6 @@ import com.github.microtweak.validator.conditional.core.spi.ValidatorFactoryReso
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import javax.el.ELProcessor;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ValidatorFactory;
@@ -21,7 +20,7 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 public class DelegatedConditionalConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
 
     private ValidatorFactory factory;
-    private ELProcessor elProcessor;
+    private ExpressionEvaluator evaluator;
 
     private List<ConditionalDescriptor> conditionalDescriptors;
 
@@ -30,7 +29,7 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
         log.trace("Initializing {} for {}", getClass().getSimpleName(), conditionalConstraint.annotationType());
 
         factory = ValidatorFactoryResolver.getInstance().getValidatorFactory();
-        elProcessor = new ELProcessor();
+        evaluator = new ExpressionEvaluator( conditionalConstraint.contextClasses() );
     }
 
     @Override
@@ -39,12 +38,10 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
 
         context.disableDefaultConstraintViolation();
 
-        elProcessor.getELManager().defineBean("this", value);
-
         boolean isValid = true;
 
         for (ConditionalDescriptor descriptor : conditionalDescriptors) {
-            if (!descriptor.isConstraintEnabled(elProcessor)) {
+            if (!evaluator.isTrueExpression(value, descriptor.getExpression())) {
                 continue;
             }
 
