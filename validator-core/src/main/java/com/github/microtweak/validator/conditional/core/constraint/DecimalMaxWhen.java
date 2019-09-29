@@ -3,7 +3,7 @@ package com.github.microtweak.validator.conditional.core.constraint;
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.DecimalMax;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -12,29 +12,29 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@WhenActivatedValidateAs(NotNull.class)
-@Repeatable(NotNullWhen.List.class)
+@WhenActivatedValidateAs(DecimalMax.class)
+@Repeatable(DecimalMaxWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-public @interface NotNullWhen {
+public @interface DecimalMaxWhen {
 
-    String expression();
+	String message() default "{javax.validation.constraints.DecimalMax.message}";
 
-    String message() default "{javax.validation.constraints.NotNull.message}";
+	Class<?>[] groups() default { };
 
-    Class<?>[] groups() default { };
+	Class<? extends Payload>[] payload() default { };
 
-    Class<? extends Payload>[] payload() default { };
+	String value();
 
-    @Documented
-    @Target({ METHOD, FIELD })
-    @Retention(RUNTIME)
-    @interface List {
+	boolean inclusive() default true;
 
-        NotNullWhen[] value();
+	@Documented
+	@Target({ METHOD, FIELD })
+	@Retention(RUNTIME)
+	@interface List {
 
-    }
+		DecimalMaxWhen[] value();
 
+	}
 }
-

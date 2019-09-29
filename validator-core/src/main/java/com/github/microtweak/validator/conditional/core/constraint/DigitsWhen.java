@@ -3,7 +3,7 @@ package com.github.microtweak.validator.conditional.core.constraint;
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 
 import javax.validation.Payload;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Digits;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -13,29 +13,32 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@WhenActivatedValidateAs(NotEmpty.class)
-@Repeatable(NotEmptyWhen.List.class)
+@WhenActivatedValidateAs(Digits.class)
+@Repeatable(DigitsWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-public @interface NotEmptyWhen {
+public @interface DigitsWhen {
 
-    String expression();
+	String message() default "{javax.validation.constraints.Digits.message}";
 
-    String message() default "{javax.validation.constraints.NotEmpty.message}";
+	Class<?>[] groups() default { };
 
-    Class<?>[] groups() default { };
+	Class<? extends Payload>[] payload() default { };
 
-    Class<? extends Payload>[] payload() default { };
+	int integer();
 
-    @Documented
-    @Target({ METHOD, FIELD })
-    @Retention(RUNTIME)
-    @interface List {
+	/**
+	 * @return maximum number of fractional digits accepted for this number
+	 */
+	int fraction();
 
-        NotEmptyWhen[] value();
+	@Documented
+	@Target({ METHOD, FIELD })
+	@Retention(RUNTIME)
+	@interface List {
 
-    }
+		DigitsWhen[] value();
 
+	}
 }
-

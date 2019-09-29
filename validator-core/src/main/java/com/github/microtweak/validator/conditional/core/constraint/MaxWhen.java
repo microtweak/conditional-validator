@@ -3,7 +3,7 @@ package com.github.microtweak.validator.conditional.core.constraint;
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -12,29 +12,30 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@WhenActivatedValidateAs(NotNull.class)
-@Repeatable(NotNullWhen.List.class)
+@WhenActivatedValidateAs(Max.class)
+@Repeatable(MaxWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-public @interface NotNullWhen {
+public @interface MaxWhen {
 
-    String expression();
+	String message() default "{javax.validation.constraints.Max.message}";
 
-    String message() default "{javax.validation.constraints.NotNull.message}";
+	Class<?>[] groups() default { };
 
-    Class<?>[] groups() default { };
+	Class<? extends Payload>[] payload() default { };
 
-    Class<? extends Payload>[] payload() default { };
+	/**
+	 * @return value the element must be lower or equal to
+	 */
+	long value();
 
-    @Documented
-    @Target({ METHOD, FIELD })
-    @Retention(RUNTIME)
-    @interface List {
+	@Documented
+	@Target({ METHOD, FIELD })
+	@Retention(RUNTIME)
+	@interface List {
 
-        NotNullWhen[] value();
+		MaxWhen[] value();
 
-    }
-
+	}
 }
-
