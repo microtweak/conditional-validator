@@ -1,8 +1,8 @@
 package bean;
 
 import com.github.microtweak.validator.conditional.core.ConditionalValidate;
-import com.github.microtweak.validator.conditional.hv.constraint.CNPJWhen;
-import com.github.microtweak.validator.conditional.hv.constraint.CPFWhen;
+import com.github.microtweak.validator.conditional.hv.constraint.br.CNPJWhen;
+import com.github.microtweak.validator.conditional.hv.constraint.br.CPFWhen;
 import lombok.Getter;
 import lombok.Setter;
 

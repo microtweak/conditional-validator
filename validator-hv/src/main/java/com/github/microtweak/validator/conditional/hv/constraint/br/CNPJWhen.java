@@ -1,7 +1,7 @@
-package com.github.microtweak.validator.conditional.hv.constraint;
+package com.github.microtweak.validator.conditional.hv.constraint.br;
 
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
-import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
@@ -12,27 +12,27 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@WhenActivatedValidateAs(CPF.class)
-@Repeatable(CPFWhen.List.class)
+@WhenActivatedValidateAs(CNPJ.class)
+@Repeatable(CNPJWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-public @interface CPFWhen {
+public @interface CNPJWhen {
 
     String expression();
 
-    String message() default "{org.hibernate.validator.constraints.br.CPF.message}";
+    String message() default "{org.hibernate.validator.constraints.br.CNPJ.message}";
 
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
 
+    @Documented
     @Target({ METHOD, FIELD })
     @Retention(RUNTIME)
-    @Documented
     @interface List {
 
-        CPFWhen[] value();
+        CNPJWhen[] value();
 
     }
 
