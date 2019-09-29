@@ -40,8 +40,6 @@ public @interface SizeWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		SizeWhen[] value();
-
 	}
 }

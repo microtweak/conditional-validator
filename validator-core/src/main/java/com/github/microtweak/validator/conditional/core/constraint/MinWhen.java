@@ -32,8 +32,6 @@ public @interface MinWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		MinWhen[] value();
-
 	}
 }

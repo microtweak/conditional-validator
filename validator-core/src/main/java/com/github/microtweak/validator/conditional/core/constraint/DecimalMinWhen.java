@@ -34,8 +34,6 @@ public @interface DecimalMinWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		DecimalMinWhen[] value();
-
 	}
 }

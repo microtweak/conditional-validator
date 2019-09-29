@@ -37,8 +37,6 @@ public @interface DigitsWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		DigitsWhen[] value();
-
 	}
 }

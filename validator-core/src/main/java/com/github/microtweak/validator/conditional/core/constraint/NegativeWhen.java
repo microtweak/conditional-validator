@@ -30,8 +30,6 @@ public @interface NegativeWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		NegativeWhen[] value();
-
 	}
 }

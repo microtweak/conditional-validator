@@ -30,8 +30,6 @@ public @interface PastWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		PastWhen[] value();
-
 	}
 }

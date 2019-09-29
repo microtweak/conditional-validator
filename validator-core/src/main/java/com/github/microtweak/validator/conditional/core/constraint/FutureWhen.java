@@ -30,8 +30,6 @@ public @interface FutureWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		FutureWhen[] value();
-
 	}
 }

@@ -30,8 +30,6 @@ public @interface AssertTrueWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		AssertTrueWhen[] value();
-
 	}
 }

@@ -30,8 +30,6 @@ public @interface PastOrPresentWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		PastOrPresentWhen[] value();
-
 	}
 }

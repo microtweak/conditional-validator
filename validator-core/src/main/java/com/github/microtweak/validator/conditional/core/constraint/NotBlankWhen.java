@@ -30,8 +30,6 @@ public @interface NotBlankWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		NotBlankWhen[] value();
-
 	}
 }

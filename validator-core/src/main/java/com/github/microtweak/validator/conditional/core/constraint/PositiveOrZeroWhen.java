@@ -30,8 +30,6 @@ public @interface PositiveOrZeroWhen {
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
 	@interface List {
-
 		PositiveOrZeroWhen[] value();
-
 	}
 }
