@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface LuhnCheckWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.LuhnCheck.message}";
 
 	Class<?>[] groups() default { };

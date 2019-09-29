@@ -21,6 +21,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Mod11CheckWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.Mod11Check.message}";
 
 	Class<?>[] groups() default { };

@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Mod10CheckWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.Mod10Check.message}";
 
 	Class<?>[] groups() default { };

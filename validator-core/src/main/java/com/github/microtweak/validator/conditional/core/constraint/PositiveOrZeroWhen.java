@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface PositiveOrZeroWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.PositiveOrZero.message}";
 
 	Class<?>[] groups() default { };

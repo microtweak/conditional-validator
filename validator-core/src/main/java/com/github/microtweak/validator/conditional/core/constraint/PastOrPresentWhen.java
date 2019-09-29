@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface PastOrPresentWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.PastOrPresent.message}";
 
 	Class<?>[] groups() default { };

@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DecimalMinWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.DecimalMin.message}";
 
 	Class<?>[] groups() default { };

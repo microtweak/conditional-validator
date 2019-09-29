@@ -19,6 +19,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface TituloEleitoralWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.br.TituloEleitoral.message}";
 
 	Class<?>[] groups() default { };

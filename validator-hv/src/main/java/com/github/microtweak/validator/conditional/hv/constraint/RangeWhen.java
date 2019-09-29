@@ -23,15 +23,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface RangeWhen {
 
-	@OverridesAttribute(constraint = Min.class, name = "value") long min() default 0;
-
-	@OverridesAttribute(constraint = Max.class, name = "value") long max() default Long.MAX_VALUE;
+	String expression();
 
 	String message() default "{org.hibernate.validator.constraints.Range.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+
+	@OverridesAttribute(constraint = Min.class, name = "value") long min() default 0;
+
+	@OverridesAttribute(constraint = Max.class, name = "value") long max() default Long.MAX_VALUE;
 
 	@Documented
 	@Target({ METHOD, FIELD })

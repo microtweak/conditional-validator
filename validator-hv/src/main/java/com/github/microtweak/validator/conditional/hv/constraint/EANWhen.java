@@ -21,6 +21,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface EANWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.EAN.message}";
 
 	Class<?>[] groups() default { };

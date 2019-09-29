@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface MaxWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Max.message}";
 
 	Class<?>[] groups() default { };

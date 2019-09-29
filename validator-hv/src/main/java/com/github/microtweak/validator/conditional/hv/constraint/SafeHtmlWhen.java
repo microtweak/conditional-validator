@@ -22,6 +22,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface SafeHtmlWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.SafeHtml.message}";
 
 	Class<?>[] groups() default { };

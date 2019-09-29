@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DinersWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.creditcard.Diners.message}";
 
     Class<?>[] groups() default {};

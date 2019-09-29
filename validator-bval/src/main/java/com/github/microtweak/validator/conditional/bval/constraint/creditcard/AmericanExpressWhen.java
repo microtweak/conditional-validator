@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface AmericanExpressWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.creditcard.AmericanExpress.message}";
 
     Class<?>[] groups() default {};

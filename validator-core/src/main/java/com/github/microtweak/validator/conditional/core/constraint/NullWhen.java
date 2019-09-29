@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface NullWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Null.message}";
 
 	Class<?>[] groups() default { };

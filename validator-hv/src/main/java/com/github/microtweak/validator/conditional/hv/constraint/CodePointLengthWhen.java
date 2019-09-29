@@ -21,17 +21,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface CodePointLengthWhen {
 
-	int min() default 0;
-
-	int max() default Integer.MAX_VALUE;
-
-	NormalizationStrategy normalizationStrategy() default NormalizationStrategy.NONE;
+	String expression();
 
 	String message() default "{org.hibernate.validator.constraints.CodePointLength.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+
+	int min() default 0;
+
+	int max() default Integer.MAX_VALUE;
+
+	NormalizationStrategy normalizationStrategy() default NormalizationStrategy.NONE;
 
 	@Documented
 	@Target({ METHOD, FIELD })

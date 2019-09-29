@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DurationMaxWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.time.DurationMax.message}";
 
 	Class<?>[] groups() default { };

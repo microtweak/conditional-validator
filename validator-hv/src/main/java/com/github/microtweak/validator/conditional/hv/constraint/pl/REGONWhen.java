@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface REGONWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.pl.REGON.message}";
 
 	Class<?>[] groups() default { };

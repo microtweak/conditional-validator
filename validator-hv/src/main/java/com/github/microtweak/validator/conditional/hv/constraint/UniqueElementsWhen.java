@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface UniqueElementsWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.UniqueElements.message}";
 
 	Class<?>[] groups() default {};

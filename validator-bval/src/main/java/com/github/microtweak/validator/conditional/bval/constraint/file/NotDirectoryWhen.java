@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface NotDirectoryWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.file.NotDirectory.message}";
 
     Class<?>[] groups() default {};

@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface MastercardWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.creditcard.Mastercard.message}";
 
     Class<?>[] groups() default {};

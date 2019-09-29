@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface EAN13When {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.checkdigit.EAN13.message}";
 
     Class<?>[] groups() default {};

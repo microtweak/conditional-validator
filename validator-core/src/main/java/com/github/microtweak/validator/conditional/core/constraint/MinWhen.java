@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface MinWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Min.message}";
 
 	Class<?>[] groups() default { };

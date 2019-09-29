@@ -21,6 +21,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface EmailWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Email.message}";
 
 	Class<?>[] groups() default { };

@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface CUSIPWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.checkdigit.CUSIP.message}";
 
     Class<?>[] groups() default {};

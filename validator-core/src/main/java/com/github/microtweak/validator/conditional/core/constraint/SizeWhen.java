@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface SizeWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Size.message}";
 
 	Class<?>[] groups() default { };

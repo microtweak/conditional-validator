@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DomainWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.net.Domain.message}";
 
     Class<?>[] groups() default {};

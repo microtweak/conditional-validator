@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface PastWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.Past.message}";
 
 	Class<?>[] groups() default { };

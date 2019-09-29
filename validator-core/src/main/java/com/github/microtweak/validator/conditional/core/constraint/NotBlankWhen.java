@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface NotBlankWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.NotBlank.message}";
 
 	Class<?>[] groups() default { };

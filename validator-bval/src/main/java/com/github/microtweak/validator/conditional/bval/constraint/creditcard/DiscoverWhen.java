@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DiscoverWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.creditcard.Discover.message}";
 
     Class<?>[] groups() default {};

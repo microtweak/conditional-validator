@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ISBN10When {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.checkdigit.ISBN10.message}";
 
     Class<?>[] groups() default {};

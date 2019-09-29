@@ -21,6 +21,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface CreditCardNumberWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.CreditCardNumber.message}";
 
 	Class<?>[] groups() default { };

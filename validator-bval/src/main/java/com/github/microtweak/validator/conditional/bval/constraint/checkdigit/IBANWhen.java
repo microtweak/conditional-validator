@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface IBANWhen {
 
+    String expression();
+
     String message() default "{org.apache.bval.extras.constraints.checkdigit.IBAN.message}";
 
     Class<?>[] groups() default {};

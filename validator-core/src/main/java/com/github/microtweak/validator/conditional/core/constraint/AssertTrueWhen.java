@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface AssertTrueWhen {
 
+	String expression();
+
 	String message() default "{javax.validation.constraints.AssertTrue.message}";
 
 	Class<?>[] groups() default { };

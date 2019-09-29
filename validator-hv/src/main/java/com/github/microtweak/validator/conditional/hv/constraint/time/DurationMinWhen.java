@@ -19,6 +19,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface DurationMinWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.time.DurationMin.message}";
 
 	Class<?>[] groups() default { };

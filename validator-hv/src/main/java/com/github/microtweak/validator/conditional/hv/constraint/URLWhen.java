@@ -22,6 +22,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface URLWhen {
 
+	String expression();
+
 	String message() default "{org.hibernate.validator.constraints.URL.message}";
 
 	Class<?>[] groups() default { };

@@ -20,15 +20,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface LengthWhen {
 
-	int min() default 0;
-
-	int max() default Integer.MAX_VALUE;
+	String expression();
 
 	String message() default "{org.hibernate.validator.constraints.Length.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+
+	int min() default 0;
+
+	int max() default Integer.MAX_VALUE;
 
 	@Documented
 	@Target({ METHOD, FIELD })

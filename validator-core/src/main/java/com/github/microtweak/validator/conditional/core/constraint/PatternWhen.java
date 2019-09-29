@@ -20,6 +20,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface PatternWhen {
 
+	String expression();
+
 	/**
 	 * @return the regular expression to match
 	 */
