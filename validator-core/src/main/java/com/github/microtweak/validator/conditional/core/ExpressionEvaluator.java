@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static java.lang.reflect.Modifier.*;
+import static org.apache.commons.lang3.reflect.FieldUtils.getAllFieldsList;
+
 @Slf4j
 public class ExpressionEvaluator {
 
@@ -67,7 +70,11 @@ public class ExpressionEvaluator {
     private void fillContextWithBean(JexlContext ctx, Object bean) {
         ctx.set("self", bean);
 
-        for (Field field : bean.getClass().getDeclaredFields()) {
+        for (Field field : getAllFieldsList(bean.getClass())) {
+            if (!isVisibleByValidator(bean.getClass(), field)) {
+                continue;
+            }
+
             try {
                 Object value = FieldUtils.readField(field, bean, true);
                 ctx.set(field.getName(), value);
@@ -75,6 +82,20 @@ public class ExpressionEvaluator {
                 throw new InvalidConditionalExpressionException("Unable to read/access field \"" + field.getName() + "\" used in expression");
             }
         }
+    }
+
+    private boolean isVisibleByValidator(Class<?> beanClass, Field field) {
+        final int mod = field.getModifiers();
+
+        if (isPublic(mod) || isProtected(mod)) {
+            return true;
+        }
+
+        if (isPrivate(mod) && field.getDeclaringClass().equals(beanClass)) {
+            return true;
+        }
+
+        return false;
     }
 
 }
