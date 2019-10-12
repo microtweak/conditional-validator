@@ -22,8 +22,6 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
     private ValidatorFactory factory;
     private ExpressionEvaluator evaluator;
 
-    private List<ConditionalDescriptor> conditionalDescriptors;
-
     @Override
     public void initialize(ConditionalValidate conditionalConstraint) {
         log.trace("Initializing {} for {}", getClass().getSimpleName(), conditionalConstraint.annotationType());
@@ -34,7 +32,7 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        findAllConditionalConstraints(value.getClass());
+        List<ConditionalDescriptor> conditionalDescriptors = findAllConditionalConstraints(value.getClass());
 
         context.disableDefaultConstraintViolation();
 
@@ -57,12 +55,8 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
         return isValid;
     }
 
-    private void findAllConditionalConstraints(Class<?> conditionalContextType) {
-        if (conditionalDescriptors != null) {
-            return;
-        }
-
-        conditionalDescriptors = FieldUtils.getAllFieldsList( conditionalContextType ).parallelStream()
+    private List<ConditionalDescriptor> findAllConditionalConstraints(Class<?> conditionalContextType) {
+        return FieldUtils.getAllFieldsList( conditionalContextType ).stream()
                 .flatMap(f -> {
                     Annotation[] conditionalConstraints = getAnnotationsWithAnnotation(f, WhenActivatedValidateAs.class);
 
