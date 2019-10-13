@@ -1,7 +1,8 @@
-package com.github.microtweak.validator.conditional.core;
+package com.github.microtweak.validator.conditional.tests;
 
+import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import com.github.microtweak.validator.conditional.junit5.BeanValidationConstraintSource;
-import com.github.microtweak.validator.conditional.junit5.ProviderTest;
+import com.github.microtweak.validator.conditional.junit5.CheckListTest;
 import org.junit.jupiter.params.ParameterizedTest;
 
 import javax.validation.Constraint;
@@ -10,7 +11,7 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ProviderTest
+@CheckListTest
 public class ConditionalValidatorRequirementsTests {
 
     @ParameterizedTest

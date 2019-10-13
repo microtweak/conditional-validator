@@ -83,7 +83,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>bean-validation-provider</id>
+                        <id>default-test</id>
                         <phase>test</phase>
                         <goals>
                             <goal>test</goal>
@@ -91,8 +91,8 @@
                         <configuration>
                             <skip>false</skip>
                             <properties>
-                                <includeTags>provider</includeTags>
-                                <excludeTags>internal</excludeTags>
+                                <includeTags>provider,checklist</includeTags>
+                                <excludeTags>core</excludeTags>
                             </properties>
                             <dependenciesToScan>
                                 <dependency>com.github.microtweak:conditional-validator-core</dependency>
