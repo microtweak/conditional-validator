@@ -20,14 +20,14 @@
 ## Problem
 The constraints of the [Bean Validation](https://beanvalidation.org) cannot be turned on/off programmatically or according to any condition of the model object.
 
-The [@GroupSequenceProvider](https://docs.jboss.org/hibernate/stable/validator/api/) annotation from [Hibernate Validator (RI)](http://hibernate.org/validator/) allows you to emulate this feature, however, it is a bit boring and tiring implement a class for each validated model object.
+The [@GroupSequenceProvider](https://docs.jboss.org/hibernate/stable/validator/api/org/hibernate/validator/group/GroupSequenceProvider.html) annotation from [Hibernate Validator (RI)](http://hibernate.org/validator/) allows you to emulate this feature, however, it is a bit boring and tiring implement a class for each validated model object.
 
 ## Solution
 An extension for Bean Validation 2.0 containing analogous annotations for each constraint. For example, if you want to apply @NotNull conditionally use @NotNullWhen(expression = "<condition>")
 
 Currently, the constraint expression is provided by [Commons Jexl](http://commons.apache.org/proper/commons-jexl/). All provided expression must return a Boolean (true/false).
 
-Whenever the expression returns true, Conditional Validator delegates to the provider (Hibernate Validator or Apache BVal) the corresponding validation. For example, when the @NotNulWhen expression is true, ConditionalValidator tells the provider to validate as @NotNull.
+Whenever the expression returns true, Conditional Validator delegates to the provider (Hibernate Validator or [Apache BVal](https://bval.apache.org/)) the corresponding validation. For example, when the @NotNulWhen expression is true, ConditionalValidator tells the provider to validate as @NotNull.
 
 ## Usage
 
