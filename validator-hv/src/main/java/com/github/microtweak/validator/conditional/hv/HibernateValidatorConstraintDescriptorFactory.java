@@ -16,16 +16,12 @@ public class HibernateValidatorConstraintDescriptorFactory extends ConstraintDes
     public HibernateValidatorConstraintDescriptorFactory() {
         final VersionInfo version = VersionInfo.getCurrent();
 
-        try {
-            if (version.gt("6.0.20")) {
-                strategy = new Hv61XConstraintDescriptorImplStrategy();
-            } else if (version.ge("6.0.6") && version.le("6.0.20")) {
-                strategy = new Hv60XConstraintDescriptorImplStrategy();
-            } else {
-                throw new IllegalStateException("Hibernate Validator older then 6.0.6 is not supported");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (version.gt("6.0.20")) {
+            strategy = new Hv61XConstraintDescriptorImplStrategy();
+        } else if (version.ge("6.0.6") && version.le("6.0.20")) {
+            strategy = new Hv60XConstraintDescriptorImplStrategy();
+        } else {
+            throw new IllegalStateException("Hibernate Validator older then 6.0.6 is not supported");
         }
     }
 
