@@ -37,7 +37,7 @@
         <bean-validation.version>2.0.1.Final</bean-validation.version>
         <el.version>3.0.0</el.version>
         <glassfish-el.version>3.0.0</glassfish-el.version>
-        <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <bval.version>2.0.2</bval.version>
     </properties>
 
