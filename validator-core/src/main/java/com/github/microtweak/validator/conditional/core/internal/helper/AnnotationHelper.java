@@ -1,15 +1,21 @@
-package com.github.microtweak.validator.conditional.core.internal;
+package com.github.microtweak.validator.conditional.core.internal.helper;
+
+import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
 import java.lang.reflect.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.apache.commons.lang3.ArrayUtils.*;
+import static org.apache.commons.lang3.ArrayUtils.contains;
+import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 public final class AnnotationHelper {
 
@@ -53,33 +59,30 @@ public final class AnnotationHelper {
         return returnType.cast( v );
     }
 
+    @SuppressWarnings("unchecked")
     public static <A extends Annotation> A createAnnotation(Class<A> annotationType, Map<String, Object> attributes) {
-        InvocationHandler h = new FakeAnnotationInvocationHandler(annotationType, attributes);
+        InvocationHandler h = new FakeAnnotationInvocationHandler<>(annotationType, attributes);
         return (A) Proxy.newProxyInstance(annotationType.getClassLoader(), toArray(annotationType), h);
     }
 
-    public static Annotation[] unwrapRepeatableAnnotations(Annotation annotation) {
-        try {
-            Method attr = annotation.annotationType().getDeclaredMethod("value");
+    private static Stream<Annotation> unwrapRepeatableAnnotations(Annotation annotation) {
+        final Method valueAttr = MethodUtils.getAccessibleMethod(annotation.annotationType(), "value");
 
-            return Optional.of( attr.getReturnType() )
-                    .filter(r -> r.isArray())
-                    .filter(r -> r.getComponentType().isAnnotationPresent(Repeatable.class))
-                    .map(r -> (Annotation[]) readAttribute(annotation, attr))
-                    .orElse( new Annotation[0] );
-        } catch (NoSuchMethodException e) {
-            return new Annotation[0];
-        }
+        return Optional.ofNullable(valueAttr)
+            .map(Method::getReturnType)
+            .filter(clazz ->
+                clazz.isArray() && clazz.getComponentType().isAnnotationPresent(Repeatable.class)
+            )
+            .map(clazz -> (Annotation[]) readAttribute(annotation, valueAttr))
+            .map(Stream::of)
+            .orElseGet(() -> Stream.of(annotation));
     }
 
-    public static <A extends Annotation> Annotation[] getAnnotationsWithAnnotation(AnnotatedElement element, Class<A> annotationType) {
+    public static List<Annotation> findAnnotationsBy(AnnotatedElement element, Predicate<Annotation> predicate) {
         return Stream.of( element.getAnnotations() )
-                .flatMap(a -> {
-                    Annotation[] repeatables = unwrapRepeatableAnnotations(a);
-                    return isNotEmpty(repeatables) ? Stream.of(repeatables) : Stream.of(a);
-                })
-                .filter(a -> a.annotationType().isAnnotationPresent(annotationType))
-                .toArray(Annotation[]::new);
+            .flatMap(AnnotationHelper::unwrapRepeatableAnnotations)
+            .filter(predicate)
+            .collect(Collectors.toList());
     }
 
 }

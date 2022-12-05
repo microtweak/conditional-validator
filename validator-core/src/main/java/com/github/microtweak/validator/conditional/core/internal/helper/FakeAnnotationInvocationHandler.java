@@ -1,4 +1,4 @@
-package com.github.microtweak.validator.conditional.core.internal;
+package com.github.microtweak.validator.conditional.core.internal.helper;
 
 import org.apache.commons.lang3.AnnotationUtils;
 
@@ -16,8 +16,8 @@ class FakeAnnotationInvocationHandler<A extends Annotation> implements Invocatio
 
     private static final List<String> IGNORED_ATTRIBUTES = asList("equals", "hashCode", "toString", "annotationType");
 
-    private Class<A> annotationType;
-    private Map<String, Object> attributes;
+    private final Class<A> annotationType;
+    private final Map<String, Object> attributes;
 
     public FakeAnnotationInvocationHandler(Class<A> annotationType, Map<String, Object> attributes) {
         this.annotationType = annotationType;
@@ -26,19 +26,21 @@ class FakeAnnotationInvocationHandler<A extends Annotation> implements Invocatio
         IGNORED_ATTRIBUTES.forEach(this.attributes::remove);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         final String name = method.getName();
+        final A annotationProxy = (A) proxy;
 
         switch (name) {
             case "equals":
-                return AnnotationUtils.equals((Annotation) proxy, (Annotation) args[0]);
+                return AnnotationUtils.equals(annotationProxy, (Annotation) args[0]);
 
             case "hashCode":
-                return AnnotationUtils.hashCode((A) proxy);
+                return AnnotationUtils.hashCode(annotationProxy);
 
             case "toString":
-                return AnnotationUtils.toString((A) proxy);
+                return AnnotationUtils.toString(annotationProxy);
 
             case "annotationType":
                 return annotationType;

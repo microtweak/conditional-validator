@@ -32,6 +32,7 @@
     </scm>
 
     <properties>
+        <lombok.version>1.18.24</lombok.version>
         <slf4j.version>1.7.26</slf4j.version>
         <cdi.version>2.0</cdi.version>
         <bean-validation.version>2.0.1.Final</bean-validation.version>
@@ -39,6 +40,7 @@
         <glassfish-el.version>3.0.0</glassfish-el.version>
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <bval.version>2.0.2</bval.version>
+        <reflections.version>0.10.2</reflections.version>
     </properties>
 
     <dependencyManagement>
@@ -154,6 +156,12 @@
                 <artifactId>javax.el</artifactId>
                 <version>${glassfish-el.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
 
             <dependency>
