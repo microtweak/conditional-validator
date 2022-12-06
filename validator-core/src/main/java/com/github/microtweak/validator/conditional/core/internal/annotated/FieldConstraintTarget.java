@@ -36,7 +36,7 @@ public class FieldConstraintTarget implements ConstraintTarget {
     }
 
     @Override
-    public Type getType() {
+    public Class<?> getType() {
         return field.getType();
     }
 

@@ -21,7 +21,7 @@ public class ConditinalDescriptor {
     private final Annotation actualConstraint;
     private final String constraintMessage;
     private final String expression;
-    private final ConstraintValidator validator;
+    private final Class<? extends ConstraintValidator> validatorClass;
 
     public ConditinalDescriptor(ConstraintTarget constraintTarget, Annotation conditionalConstraint) {
         this.constraintTarget = constraintTarget;
@@ -40,7 +40,7 @@ public class ConditinalDescriptor {
             throw new IllegalArgumentException("The conditional constraint " + conditionalConstraint.annotationType() + " does not have the attribute \"expression\"!");
         }
 
-        this.validator = BeanValidationHelper.getConstraintValidatorOf(actualConstraint, (Class<?>) constraintTarget.getType());
+        this.validatorClass = BeanValidationHelper.findConstraintValidatorClass(actualConstraint.annotationType(), constraintTarget.getType());
     }
 
     public String getName() {

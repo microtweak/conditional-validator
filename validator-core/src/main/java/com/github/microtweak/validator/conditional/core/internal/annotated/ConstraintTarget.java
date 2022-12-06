@@ -18,7 +18,7 @@ public interface ConstraintTarget {
 
     Class<?> getDeclaringClass();
 
-    Type getType();
+    Class<?> getType();
 
     List<Annotation> getConstraints();
 

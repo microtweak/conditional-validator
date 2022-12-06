@@ -87,21 +87,16 @@ public final class BeanValidationHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static <A extends Annotation, CV extends ConstraintValidator<A, ?>> CV getConstraintValidatorOf(A constraint, Class<?> validatedType) {
-        final Class<CV> constraintValidatorClass = (Class<CV>) findConstraintValidatorClass(constraint.annotationType(), validatedType);
-
-        final CV validatorInstance = platformHelper.getConstraintValidatorInstance(constraintValidatorClass);
-        validatorInstance.initialize(constraint);
-        return validatorInstance;
-    }
-
-    @SuppressWarnings("unchecked")
     public static boolean invokeConstraintValidator(Object validatedBean, ConditinalDescriptor descriptor, ConstraintValidatorContext context) {
         final Object value = descriptor.getConstraintTarget().getTargetValue(validatedBean);
-        return descriptor.getValidator().isValid(value, context);
+
+        final ConstraintValidator<Annotation, Object> validator = platformHelper.getConstraintValidatorInstance(descriptor.getValidatorClass());
+        validator.initialize(descriptor.getActualConstraint());
+
+        return validator.isValid(value, context);
     }
 
-    private static Class<? extends ConstraintValidator> findConstraintValidatorClass(Class<? extends Annotation> constraintClass, Class<?> validatedType) {
+    public static Class<? extends ConstraintValidator> findConstraintValidatorClass(Class<? extends Annotation> constraintClass, Class<?> validatedType) {
         Set<ConstraintValidatorDescriptor> availableValidators = getValidatorAnnotatedInConstraint(constraintClass);
 
         if (ObjectUtils.isEmpty(availableValidators)) {
