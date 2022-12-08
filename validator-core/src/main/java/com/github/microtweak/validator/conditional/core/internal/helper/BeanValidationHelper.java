@@ -11,8 +11,6 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -20,11 +18,11 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang3.reflect.TypeUtils.getRawType;
@@ -39,61 +37,47 @@ public final class BeanValidationHelper {
     private static final Map<Class<? extends Annotation>, Set<ConstraintValidatorDescriptor>> constraintValidators = lookupConstraintValidatorsImpl();
 
     private static Map<Class<? extends Annotation>, Set<ConstraintValidatorDescriptor>> lookupConstraintValidatorsImpl() {
-        final Reflections reflections = new Reflections(new ConfigurationBuilder()
-            .setClassLoaders(implementationHelper.getClassLoaderOfConstraintValidators())
-            .forPackages(implementationHelper.getPackagesOfConstraintValidators())
-        );
-
-        return reflections.getSubTypesOf(ConstraintValidator.class).stream()
-            .filter(cls -> !Modifier.isInterface(cls.getModifiers()) && !Modifier.isAbstract(cls.getModifiers()))
-            .map(BeanValidationHelper::getDescriptorOfConstraintValidator)
-            .filter(descriptor -> descriptor != null && descriptor.isValid())
-            .collect(
-                Collectors.groupingBy(
-                    ConstraintValidatorDescriptor::getAnnotationClass,
-                    Collectors.toSet()
-                )
-            );
-    }
-
-    public static Set<ConditinalDescriptor> getConditinalDescriptorOf(Class<?> conditionalValidatedClass) {
-        return FieldUtils.getAllFieldsList(conditionalValidatedClass).stream()
-            .map(ConstraintTarget::of)
-            .filter(Objects::nonNull)
-            .flatMap(target -> target.getConstraints().stream()
-                .map(constraint -> new ConditinalDescriptor(target, constraint))
+        final Stream<Class<? extends ConstraintValidator>> validatorsStream = implementationHelper.getAvailableConstraintValidators().stream();
+        return toConstraintValidatorDescriptorStream(validatorsStream).collect(
+            Collectors.groupingBy(
+                ConstraintValidatorDescriptor::getAnnotationClass,
+                Collectors.toSet()
             )
-            .collect(Collectors.toSet());
+        );
     }
 
-    private static ConstraintValidatorDescriptor getDescriptorOfConstraintValidator(Class<? extends ConstraintValidator> constraintValidatorClass) {
-        try {
-            return new ConstraintValidatorDescriptor(constraintValidatorClass);
-        } catch (TypeNotPresentException e) {
-            log.trace("ConstraintValidator \"{}\" was ignored because type \"{}\" is not present in the classpath", constraintValidatorClass.getName(), e.typeName());
-            return null;
-        }
+    private static <A extends Annotation> Set<ConstraintValidatorDescriptor> getValidatorAnnotatedInConstraint(Class<A> constraintClass) {
+        final Class<? extends ConstraintValidator<?, ?>>[] validatedBy = constraintClass.getAnnotation(Constraint.class).validatedBy();
+        return toConstraintValidatorDescriptorStream(Stream.of(validatedBy)).collect(Collectors.toSet());
+    }
+
+    private static Stream<ConstraintValidatorDescriptor> toConstraintValidatorDescriptorStream(Stream<Class<? extends ConstraintValidator>> validatorStream) {
+        return validatorStream
+            .filter(cls ->
+                !Modifier.isInterface(cls.getModifiers()) && !Modifier.isAbstract(cls.getModifiers())
+            )
+            .map(constraintValidatorClass -> {
+                try {
+                    return new ConstraintValidatorDescriptor(constraintValidatorClass);
+                } catch (TypeNotPresentException e) {
+                    log.trace("ConstraintValidator \"{}\" was ignored because type \"{}\" is not present in the classpath", constraintValidatorClass.getName(), e.typeName());
+                    return null;
+                }
+            })
+            .filter(descriptor -> descriptor != null && descriptor.isValid());
     }
 
     public static Annotation getActualBeanValidationContraintOf(Annotation conditionalConstraint) {
         final Class<? extends Annotation> actualConstraintType = conditionalConstraint.annotationType().getAnnotation(WhenActivatedValidateAs.class).value();
 
         if (actualConstraintType == null) {
-            throw new IllegalArgumentException("Conditional constraint is not annotated with " + WhenActivatedValidateAs.class + "!");
+            throw new IllegalArgumentException(
+                format("Conditional constraint is not annotated with %s!", WhenActivatedValidateAs.class)
+            );
         }
 
         final Map<String, Object> attributes = AnnotationHelper.readAllAtributeExcept(conditionalConstraint, "expression");
         return AnnotationHelper.createAnnotation(actualConstraintType, attributes);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static boolean invokeConstraintValidator(Object validatedBean, ConditinalDescriptor descriptor, ConstraintValidatorContext context) {
-        final Object value = descriptor.getConstraintTarget().getTargetValue(validatedBean);
-
-        final ConstraintValidator<Annotation, Object> validator = platformHelper.getConstraintValidatorInstance(descriptor.getValidatorClass());
-        validator.initialize(descriptor.getActualConstraint());
-
-        return validator.isValid(value, context);
     }
 
     public static Class<? extends ConstraintValidator> findConstraintValidatorClass(Class<? extends Annotation> constraintClass, Class<?> validatedType) {
@@ -104,7 +88,9 @@ public final class BeanValidationHelper {
         }
 
         if (ObjectUtils.isEmpty(availableValidators)) {
-            throw new ConstraintValidatorException(format("No validator registered for constraint %s", constraintClass.getName()));
+            throw new ConstraintValidatorException(
+                format("No validator registered for constraint %s", constraintClass.getName())
+            );
         }
 
         final Set<ConstraintValidatorDescriptor> foundValidators = availableValidators.stream()
@@ -125,12 +111,24 @@ public final class BeanValidationHelper {
             );
     }
 
-    private static <A extends Annotation> Set<ConstraintValidatorDescriptor> getValidatorAnnotatedInConstraint(Class<A> constraintClass) {
-        final Class<? extends ConstraintValidator<?, ?>>[] validatedBy = constraintClass.getAnnotation(Constraint.class).validatedBy();
-        return Arrays.stream(validatedBy)
-                .map(BeanValidationHelper::getDescriptorOfConstraintValidator)
-                .filter(descriptor -> descriptor != null && descriptor.isValid())
-                .collect(Collectors.toSet());
+    public static Set<ConditinalDescriptor> getConditinalDescriptorOf(Class<?> conditionalValidatedClass) {
+        return FieldUtils.getAllFieldsList(conditionalValidatedClass).stream()
+            .map(ConstraintTarget::of)
+            .filter(Objects::nonNull)
+            .flatMap(target -> target.getConstraints().stream()
+                .map(constraint -> new ConditinalDescriptor(target, constraint))
+            )
+            .collect(Collectors.toSet());
+    }
+
+    @SuppressWarnings("unchecked")
+    public static boolean invokeConstraintValidator(Object validatedBean, ConditinalDescriptor descriptor, ConstraintValidatorContext context) {
+        final Object value = descriptor.getConstraintTarget().getTargetValue(validatedBean);
+
+        final ConstraintValidator<Annotation, Object> validator = platformHelper.getConstraintValidatorInstance(descriptor.getValidatorClass());
+        validator.initialize(descriptor.getActualConstraint());
+
+        return validator.isValid(value, context);
     }
 
     @ToString

@@ -30,14 +30,18 @@ public class ConditinalDescriptor {
         try {
             this.constraintMessage = readAttribute(actualConstraint, "message", String.class);
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("The Bean Validation constraint " + actualConstraint.annotationType() + " does not have the attribute \"message\"!");
+            throw new IllegalArgumentException(
+                "The Bean Validation constraint " + actualConstraint.annotationType() + " does not have the attribute \"message\"!"
+            );
         }
 
         try {
             this.expression = readAttribute(conditionalConstraint, "expression", String.class);
             Validate.notEmpty(expression);
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("The conditional constraint " + conditionalConstraint.annotationType() + " does not have the attribute \"expression\"!");
+            throw new IllegalArgumentException(
+                "The conditional constraint " + conditionalConstraint.annotationType() + " does not have the attribute \"expression\"!"
+            );
         }
 
         this.validatorClass = BeanValidationHelper.findConstraintValidatorClass(actualConstraint.annotationType(), constraintTarget.getType());

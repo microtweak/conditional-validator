@@ -1,8 +1,12 @@
 package com.github.microtweak.validator.conditional.core.spi;
 
 import com.github.microtweak.validator.conditional.core.exception.UnsupportedBeanValidatorImplException;
+import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 
+import javax.validation.ConstraintValidator;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 public interface BeanValidationImplementationProvider {
 
@@ -16,5 +20,15 @@ public interface BeanValidationImplementationProvider {
     ClassLoader[] getClassLoaderOfConstraintValidators();
 
     String[] getPackagesOfConstraintValidators();
+
+    @SuppressWarnings("rawtypes")
+    default Set<Class<? extends ConstraintValidator>> getAvailableConstraintValidators() {
+        final Reflections reflections = new Reflections(new ConfigurationBuilder()
+            .setClassLoaders( getClassLoaderOfConstraintValidators() )
+            .forPackages( getPackagesOfConstraintValidators() )
+        );
+
+        return reflections.getSubTypesOf(ConstraintValidator.class);
+    }
 
 }

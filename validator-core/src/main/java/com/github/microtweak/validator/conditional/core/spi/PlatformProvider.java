@@ -1,5 +1,6 @@
 package com.github.microtweak.validator.conditional.core.spi;
 
+import com.github.microtweak.validator.conditional.core.exception.ConstraintValidatorException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
@@ -45,7 +46,7 @@ public interface PlatformProvider {
             try {
                 return ConstructorUtils.invokeExactConstructor(constraintValidatorClass);
             } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-                throw new RuntimeException("ConstraintValidator does not have a no-args constructor or this constructor is private", e);
+                throw new ConstraintValidatorException("ConstraintValidator does not have a no-args constructor or this constructor is private", e);
             } catch (InvocationTargetException e) {
                 return ExceptionUtils.rethrow(e.getTargetException());
             }
