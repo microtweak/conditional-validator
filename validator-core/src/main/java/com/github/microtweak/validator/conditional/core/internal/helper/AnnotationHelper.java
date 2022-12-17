@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
 import java.lang.reflect.*;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,49 +19,38 @@ import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 public final class AnnotationHelper {
 
-    public static Map<String, Object> readAllAtributeExcept(Annotation annotation, String... exceptAttributes) {
-        final Map<String, Object> attributes = new HashMap<>();
-
-        for (Method method : annotation.getClass().getDeclaredMethods()) {
-            if (method.getParameterCount() > 0 || contains(exceptAttributes, method.getName())) {
-                continue;
-            }
-
-            Object value = readAttribute(annotation, method);
-            attributes.put(method.getName(), value);
-        }
-
-        return attributes;
-    }
-
     public static Map<String, Object> readAllAttributes(Annotation annotation) {
-        final Map<String, Object> attributes = new HashMap<>();
-
-        for (Method method : annotation.getClass().getDeclaredMethods()) {
-            Object value = readAttribute(annotation, method);
-            attributes.put(method.getName(), value);
-        }
-
-        return attributes;
+        return readAllAttributesByCriteria(annotation, (method) -> true);
     }
 
-    public static Object readAttribute(Annotation annotation, Method method) {
+    public static Map<String, Object> readAllAtributeExcept(Annotation annotation, String... exceptAttributes) {
+        return readAllAttributesByCriteria(annotation, (method) -> !contains(exceptAttributes, method.getName()));
+    }
+
+    public static <R extends Serializable> R readAttribute(Annotation annotation, String attributeName, Class<R> returnType) throws NoSuchMethodException {
+        final Method attribute = annotation.annotationType().getDeclaredMethod(attributeName);
+        return readAttribute(annotation, attribute, returnType);
+    }
+
+    private static Map<String, Object> readAllAttributesByCriteria(Annotation annotation, Predicate<Method> predicate) {
+        return Arrays.stream( annotation.getClass().getDeclaredMethods() )
+            .filter(attr -> attr.getParameterCount() == 0)
+            .filter(predicate)
+            .collect(Collectors.toMap(Method::getName, attr -> readAttribute(annotation, attr, Object.class)));
+    }
+
+    private static <R> R readAttribute(Annotation annotation, Method attribute, Class<R> returnType) {
         try {
-            return method.invoke(annotation);
+            final Object value = attribute.invoke(annotation);
+            return returnType.cast(value);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public static <R extends Serializable> R readAttribute(Annotation annotation, String attributeName, Class<R> returnType) throws NoSuchMethodException {
-        Method method = annotation.annotationType().getDeclaredMethod(attributeName);
-        Object v = readAttribute(annotation, method);
-        return returnType.cast( v );
-    }
-
     @SuppressWarnings("unchecked")
     public static <A extends Annotation> A createAnnotation(Class<A> annotationType, Map<String, Object> attributes) {
-        InvocationHandler h = new FakeAnnotationInvocationHandler<>(annotationType, attributes);
+        final InvocationHandler h = new FakeAnnotationInvocationHandler<>(annotationType, attributes);
         return (A) Proxy.newProxyInstance(annotationType.getClassLoader(), toArray(annotationType), h);
     }
 
@@ -73,13 +62,13 @@ public final class AnnotationHelper {
             .filter(clazz ->
                 clazz.isArray() && clazz.getComponentType().isAnnotationPresent(Repeatable.class)
             )
-            .map(clazz -> (Annotation[]) readAttribute(annotation, valueAttr))
+            .map(clazz -> (Annotation[]) readAttribute(annotation, valueAttr, Object.class))
             .map(Stream::of)
             .orElseGet(() -> Stream.of(annotation));
     }
 
     public static List<Annotation> findAnnotationsBy(AnnotatedElement element, Predicate<Annotation> predicate) {
-        return Stream.of( element.getAnnotations() )
+        return Arrays.stream( element.getAnnotations() )
             .flatMap(AnnotationHelper::unwrapRepeatableAnnotations)
             .filter(predicate)
             .collect(Collectors.toList());

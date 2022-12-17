@@ -1,30 +1,18 @@
 package com.github.microtweak.validator.conditional.core.internal.helper;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.AnnotationUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyMap;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
+@AllArgsConstructor
 class FakeAnnotationInvocationHandler<A extends Annotation> implements InvocationHandler {
-
-    private static final List<String> IGNORED_ATTRIBUTES = asList("equals", "hashCode", "toString", "annotationType");
 
     private final Class<A> annotationType;
     private final Map<String, Object> attributes;
-
-    public FakeAnnotationInvocationHandler(Class<A> annotationType, Map<String, Object> attributes) {
-        this.annotationType = annotationType;
-        this.attributes = defaultIfNull(attributes, emptyMap());
-
-        IGNORED_ATTRIBUTES.forEach(this.attributes::remove);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -46,7 +34,7 @@ class FakeAnnotationInvocationHandler<A extends Annotation> implements Invocatio
                 return annotationType;
 
             default:
-                return attributes.get(name);
+                return attributes.containsKey(name) ? attributes.get(name) : method.invoke(attributes);
         }
     }
 
