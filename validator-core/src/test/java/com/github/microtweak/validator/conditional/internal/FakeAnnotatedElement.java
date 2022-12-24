@@ -1,4 +1,4 @@
-package com.github.microtweak.validator.conditional.internal.literal;
+package com.github.microtweak.validator.conditional.internal;
 
 import lombok.Getter;
 

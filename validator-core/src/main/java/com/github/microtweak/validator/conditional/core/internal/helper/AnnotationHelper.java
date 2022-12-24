@@ -33,7 +33,7 @@ public final class AnnotationHelper {
     }
 
     private static Map<String, Object> readAllAttributesByCriteria(Annotation annotation, Predicate<Method> predicate) {
-        return Arrays.stream( annotation.getClass().getDeclaredMethods() )
+        return Arrays.stream( annotation.annotationType().getDeclaredMethods() )
             .filter(attr -> attr.getParameterCount() == 0)
             .filter(predicate)
             .collect(Collectors.toMap(Method::getName, attr -> readAttribute(annotation, attr, Object.class)));

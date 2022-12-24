@@ -1,14 +1,17 @@
 package com.github.microtweak.validator.conditional.internal;
 
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
-import com.github.microtweak.validator.conditional.internal.literal.FakeAnnotatedElement;
-import com.github.microtweak.validator.conditional.internal.literal.NotEmptyLiteral;
-import com.github.microtweak.validator.conditional.internal.literal.NotNullLiteral;
+import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
+import com.github.microtweak.validator.conditional.internal.literal.NotEmptyListLiteral;
+import com.github.microtweak.validator.conditional.internal.literal.NotNullListLiteral;
+import com.github.microtweak.validator.conditional.internal.literal.RepeatableListeral;
 import com.github.microtweak.validator.conditional.junit5.CoreTest;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
@@ -22,7 +25,7 @@ public class AnnotationHelperTest {
 
     @Test
     public void readSingle() {
-        final NotEmpty fakeNotEmpty = new NotEmptyLiteral();
+        final NotEmpty fakeNotEmpty = new ConstraintLiteral<>(NotEmpty.class).build();
 
         assertAll(
             () -> {
@@ -35,35 +38,42 @@ public class AnnotationHelperTest {
 
     @Test
     public void readAll() {
-        final NotNull fakeNotNull = new NotNullLiteral();
+        final Email fakeEmail = new ConstraintLiteral<>(Email.class)
+            .attribute("regexp", ".*")
+            .attribute("flags", new Pattern.Flag[0])
+            .build();
 
-        final Map<String, Object> attrs = AnnotationHelper.readAllAttributes(fakeNotNull);
+        final Map<String, Object> attrs = AnnotationHelper.readAllAttributes(fakeEmail);
 
         assertAll(
-            () -> assertEquals(fakeNotNull.annotationType(), attrs.get("annotationType")),
-            () -> assertEquals(fakeNotNull.message(), attrs.get("message")),
+            () -> assertEquals(fakeEmail.regexp(), attrs.get("regexp")),
+            () -> assertEquals(fakeEmail.flags(), attrs.get("flags")),
+            () -> assertEquals(fakeEmail.message(), attrs.get("message")),
             () -> {
                 final Class<?>[] groups = (Class<?>[]) attrs.get("groups");
-                assertArrayEquals(fakeNotNull.groups(), groups);
+                assertArrayEquals(fakeEmail.groups(), groups);
             },
             () -> {
                 final Class<?>[] payload = (Class<?>[]) attrs.get("payload");
-                assertArrayEquals(fakeNotNull.payload(), payload);
+                assertArrayEquals(fakeEmail.payload(), payload);
             }
         );
     }
 
     @Test
     public void readAllExcept() {
-        final NotNull fakeNotNull = new NotNullLiteral();
+        final Email fakeEmail = new ConstraintLiteral<>(Email.class)
+            .attribute("regexp", ".*")
+            .attribute("flags", new Pattern.Flag[0])
+            .build();
 
-        final Map<String, Object> attrs = AnnotationHelper.readAllAtributeExcept(fakeNotNull, "annotationType");
+        final Map<String, Object> attrs = AnnotationHelper.readAllAtributeExcept(fakeEmail, "regexp");
 
         assertAll(
-            () -> assertNull(attrs.get("annotationType")),
-            () -> assertEquals(fakeNotNull.message(), attrs.get("message")),
-            () -> assertArrayEquals(fakeNotNull.groups(), (Object[]) attrs.get("groups")),
-            () -> assertArrayEquals(fakeNotNull.payload(), (Object[]) attrs.get("payload"))
+            () -> assertNull(attrs.get("regexp")),
+            () -> assertEquals(fakeEmail.message(), attrs.get("message")),
+            () -> assertArrayEquals(fakeEmail.groups(), (Object[]) attrs.get("groups")),
+            () -> assertArrayEquals(fakeEmail.payload(), (Object[]) attrs.get("payload"))
         );
     }
 
@@ -87,8 +97,8 @@ public class AnnotationHelperTest {
     @Test
     public void findNonRepeatableAnnotations() {
         final AnnotatedElement element = new FakeAnnotatedElement(
-            new NotNullLiteral(),
-            new NotEmptyLiteral()
+            new ConstraintLiteral<>(NotNull.class).build(),
+            new ConstraintLiteral<>(NotEmpty.class).build()
         );
 
         final List<Annotation> result = AnnotationHelper.findAnnotationsBy(
@@ -104,12 +114,12 @@ public class AnnotationHelperTest {
     @Test
     public void findRepeatableAnnotations() {
         final AnnotatedElement element = new FakeAnnotatedElement(
-            NotNullLiteral.asList(
-                new NotNullLiteral()
+            new NotNullListLiteral(
+                new ConstraintLiteral<>(NotNull.class).build()
             ),
-            NotEmptyLiteral.asList(
-                new NotEmptyLiteral(),
-                new NotEmptyLiteral()
+            new NotEmptyListLiteral(
+                new ConstraintLiteral<>(NotEmpty.class).build(),
+                new ConstraintLiteral<>(NotEmpty.class).build()
             )
         );
 

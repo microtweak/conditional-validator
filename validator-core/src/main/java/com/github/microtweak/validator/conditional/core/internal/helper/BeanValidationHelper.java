@@ -6,8 +6,6 @@ import com.github.microtweak.validator.conditional.core.internal.ConditinalDescr
 import com.github.microtweak.validator.conditional.core.internal.annotated.ConstraintTarget;
 import com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider;
 import com.github.microtweak.validator.conditional.core.spi.PlatformProvider;
-import lombok.Getter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -17,7 +15,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.TypeVariable;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.reflect.TypeUtils.getRawType;
 
 @Slf4j
 @SuppressWarnings("rawtypes")
@@ -97,13 +94,18 @@ public final class BeanValidationHelper {
             .filter(descriptor -> descriptor.getValidatedClass().isAssignableFrom(validatedType))
             .collect(Collectors.toSet());
 
-        if (foundValidators.size() > 1) {
+        final boolean isAnyDuplicateDescriptors = foundValidators.stream().anyMatch(
+            validator -> Collections.frequency(foundValidators, validator) > 1
+        );
+
+        if (isAnyDuplicateDescriptors) {
             throw new ConstraintValidatorException(
                 format("Two or more validators are eligible for constraint %s", constraintClass.getName())
             );
         }
 
         return foundValidators.stream()
+            .sorted(ConstraintValidatorDescriptor.hierarchySortComparator(validatedType))
             .findFirst()
             .map(ConstraintValidatorDescriptor::getValidatorImplClass)
             .orElseThrow(
@@ -129,32 +131,6 @@ public final class BeanValidationHelper {
         validator.initialize(descriptor.getActualConstraint());
 
         return validator.isValid(value, context);
-    }
-
-    @ToString
-    @Getter
-    @SuppressWarnings("rawtypes")
-    static class ConstraintValidatorDescriptor {
-
-        private static final TypeVariable<?> annotationTypeGeneric = ConstraintValidator.class.getTypeParameters()[0];
-        private static final TypeVariable<?> validatedTypeGeneric = ConstraintValidator.class.getTypeParameters()[1];
-
-        private final Class<? extends Annotation> annotationClass;
-
-        private final Class<?> validatedClass;
-        private final Class<? extends ConstraintValidator> validatorImplClass;
-
-        @SuppressWarnings("unchecked")
-        ConstraintValidatorDescriptor(Class<? extends ConstraintValidator> validatorImplClass) {
-            this.annotationClass = (Class<? extends Annotation>) getRawType(annotationTypeGeneric, validatorImplClass);
-            this.validatedClass =  getRawType(validatedTypeGeneric, validatorImplClass);
-            this.validatorImplClass = validatorImplClass;
-        }
-
-        public boolean isValid() {
-            return annotationClass != null && validatedClass != null;
-        }
-
     }
 
 }
