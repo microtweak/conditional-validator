@@ -36,8 +36,8 @@ class ConstraintValidatorDescriptor {
         this.validatorImplClass = validatorImplClass;
     }
 
-    public boolean isValid() {
-        return annotationClass != null && validatedClass != null;
+    public boolean canValidate(Class<?> cls) {
+        return ClassUtils.isAssignable(cls, getValidatedClass());
     }
 
     public static Comparator<ConstraintValidatorDescriptor> hierarchySortComparator(Class<?> validatedType) {
@@ -49,7 +49,7 @@ class ConstraintValidatorDescriptor {
     }
 
     private static int calculateDistanceToAncestor(Class<?> descendant, Class<?> ancestor) {
-        if (!ancestor.isAssignableFrom(descendant)) {
+        if (!ClassUtils.isAssignable(descendant, ancestor)) {
             throw new IllegalArgumentException(
                 format("Type \"%s\" does not descend from \"%s\"", descendant.getName(), ancestor.getName())
             );

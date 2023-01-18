@@ -61,7 +61,9 @@ public final class BeanValidationHelper {
                     return null;
                 }
             })
-            .filter(descriptor -> descriptor != null && descriptor.isValid());
+            .filter(
+                descriptor -> descriptor != null && descriptor.getAnnotationClass() != null && descriptor.getValidatedClass() != null
+            );
     }
 
     public static Annotation getActualBeanValidationContraintOf(Annotation conditionalConstraint) {
@@ -91,7 +93,7 @@ public final class BeanValidationHelper {
         }
 
         final Set<ConstraintValidatorDescriptor> foundValidators = availableValidators.stream()
-            .filter(descriptor -> descriptor.getValidatedClass().isAssignableFrom(validatedType))
+            .filter(descriptor -> descriptor.canValidate(validatedType))
             .collect(Collectors.toSet());
 
         final boolean isAnyDuplicateDescriptors = foundValidators.stream().anyMatch(

@@ -72,6 +72,24 @@ public class BeanValidationHelperTests {
     }
 
     @Test
+    public void findBuiltInValidatorClassByPrimitiveAndWrapperType() {
+        final Class<?> minIntPrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(Min.class, Integer.class);
+        final Class<?> minIntWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(Min.class, int.class);
+
+        assertEquals(minIntPrimitiveValidator, minIntWrapperValidator);
+
+        final Class<?> assertTruePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(AssertTrue.class, Boolean.class);
+        final Class<?> assertTrueWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(AssertTrue.class, boolean.class);
+
+        assertEquals(assertTruePrimitiveValidator, assertTrueWrapperValidator);
+
+        final Class<?> assertFalsePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(AssertFalse.class, Boolean.class);
+        final Class<?> assertFalseWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(AssertFalse.class, boolean.class);
+
+        assertEquals(assertFalsePrimitiveValidator, assertFalseWrapperValidator);
+    }
+
+    @Test
     public void findCustomValidatorClass() {
         final Class<?> fakeConstraintStringValidator = BeanValidationHelper.findConstraintValidatorClass(FakeConstraint.class, String.class);
         assertEquals(FakeConstraintStringValidator.class, fakeConstraintStringValidator);
