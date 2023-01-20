@@ -49,6 +49,9 @@ class ConstraintValidatorDescriptor {
     }
 
     private static int calculateDistanceToAncestor(Class<?> descendant, Class<?> ancestor) {
+        descendant = ClassUtils.primitiveToWrapper(descendant);
+        ancestor = ClassUtils.primitiveToWrapper(ancestor);
+
         if (!ClassUtils.isAssignable(descendant, ancestor)) {
             throw new IllegalArgumentException(
                 format("Type \"%s\" does not descend from \"%s\"", descendant.getName(), ancestor.getName())
