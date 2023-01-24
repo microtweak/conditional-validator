@@ -113,8 +113,8 @@ public class BeanValidationHelperTests {
 
         assertAll(
             () -> assertEquals("street", descriptor.getName()),
-            () -> assertEquals(Address.class, descriptor.getConstraintTarget().getDeclaringClass()),
-            () -> assertEquals(String.class, descriptor.getConstraintTarget().getType()),
+            () -> assertEquals(Address.class, descriptor.getValidationPoint().getDeclaringClass()),
+            () -> assertEquals(String.class, descriptor.getValidationPoint().getType()),
             () -> assertEquals(NotEmpty.class, descriptor.getActualConstraint().annotationType())
         );
     }

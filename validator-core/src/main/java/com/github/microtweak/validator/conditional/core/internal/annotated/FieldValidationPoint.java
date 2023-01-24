@@ -7,18 +7,17 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.List;
 
 @ToString
-public class FieldConstraintTarget implements ConstraintTarget {
+public class FieldValidationPoint implements ValidationPoint {
 
     private final Field field;
 
     @Getter
     private final List<Annotation> constraints;
 
-    FieldConstraintTarget(Field field, List<Annotation> constraints) {
+    FieldValidationPoint(Field field, List<Annotation> constraints) {
         this.field = field;
         field.setAccessible(true);
 
@@ -41,7 +40,7 @@ public class FieldConstraintTarget implements ConstraintTarget {
     }
 
     @Override
-    public Object getTargetValue(Object bean) {
+    public Object getValidatedValue(Object bean) {
         try {
             return FieldUtils.readField(field, bean);
         } catch (IllegalAccessException e) {

@@ -7,12 +7,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import static java.lang.String.format;
 
-public interface ConstraintTarget {
+public interface ValidationPoint {
 
     String getName();
 
@@ -22,9 +21,9 @@ public interface ConstraintTarget {
 
     List<Annotation> getConstraints();
 
-    Object getTargetValue(Object bean);
+    Object getValidatedValue(Object bean);
 
-    static ConstraintTarget of(AnnotatedElement element) {
+    static ValidationPoint of(AnnotatedElement element) {
         final List<Annotation> constraints = AnnotationHelper.findAnnotationsBy(element, (annotation) ->
             annotation.annotationType().isAnnotationPresent(WhenActivatedValidateAs.class)
         );
@@ -34,7 +33,7 @@ public interface ConstraintTarget {
         }
 
         if (element instanceof Field) {
-            return new FieldConstraintTarget((Field) element, constraints);
+            return new FieldValidationPoint((Field) element, constraints);
         }
 
         throw new IllegalArgumentException( format("No implementation of ConstraintTarget found for %s", element) );

@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.internal;
 
-import com.github.microtweak.validator.conditional.core.internal.annotated.ConstraintTarget;
+import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,17 +14,17 @@ import static com.github.microtweak.validator.conditional.core.internal.helper.A
 
 @Getter
 @ToString
-@EqualsAndHashCode(of = { "constraintTarget", "actualConstraint" })
+@EqualsAndHashCode(of = { "validationPoint", "actualConstraint" })
 public class ConditinalDescriptor {
 
-    private final ConstraintTarget constraintTarget;
+    private final ValidationPoint validationPoint;
     private final Annotation actualConstraint;
     private final String constraintMessage;
     private final String expression;
     private final Class<? extends ConstraintValidator> validatorClass;
 
-    public ConditinalDescriptor(ConstraintTarget constraintTarget, Annotation conditionalConstraint) {
-        this.constraintTarget = constraintTarget;
+    public ConditinalDescriptor(ValidationPoint validationPoint, Annotation conditionalConstraint) {
+        this.validationPoint = validationPoint;
         this.actualConstraint = BeanValidationHelper.getActualBeanValidationContraintOf(conditionalConstraint);
 
         try {
@@ -44,11 +44,11 @@ public class ConditinalDescriptor {
             );
         }
 
-        this.validatorClass = BeanValidationHelper.findConstraintValidatorClass(actualConstraint.annotationType(), constraintTarget.getType());
+        this.validatorClass = BeanValidationHelper.findConstraintValidatorClass(actualConstraint.annotationType(), validationPoint.getType());
     }
 
     public String getName() {
-        return constraintTarget.getName();
+        return validationPoint.getName();
     }
 
 }

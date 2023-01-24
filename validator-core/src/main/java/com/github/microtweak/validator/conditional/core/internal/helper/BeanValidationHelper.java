@@ -3,7 +3,7 @@ package com.github.microtweak.validator.conditional.core.internal.helper;
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import com.github.microtweak.validator.conditional.core.exception.ConstraintValidatorException;
 import com.github.microtweak.validator.conditional.core.internal.ConditinalDescriptor;
-import com.github.microtweak.validator.conditional.core.internal.annotated.ConstraintTarget;
+import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider;
 import com.github.microtweak.validator.conditional.core.spi.PlatformProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -117,7 +117,7 @@ public final class BeanValidationHelper {
 
     public static Set<ConditinalDescriptor> getConditinalDescriptorOf(Class<?> conditionalValidatedClass) {
         return FieldUtils.getAllFieldsList(conditionalValidatedClass).stream()
-            .map(ConstraintTarget::of)
+            .map(ValidationPoint::of)
             .filter(Objects::nonNull)
             .flatMap(target -> target.getConstraints().stream()
                 .map(constraint -> new ConditinalDescriptor(target, constraint))
@@ -127,7 +127,7 @@ public final class BeanValidationHelper {
 
     @SuppressWarnings("unchecked")
     public static boolean invokeConstraintValidator(Object validatedBean, ConditinalDescriptor descriptor, ConstraintValidatorContext context) {
-        final Object value = descriptor.getConstraintTarget().getTargetValue(validatedBean);
+        final Object value = descriptor.getValidationPoint().getValidatedValue(validatedBean);
 
         final ConstraintValidator<Annotation, Object> validator = platformHelper.getConstraintValidatorInstance(descriptor.getValidatorClass());
         validator.initialize(descriptor.getActualConstraint());
