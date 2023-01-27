@@ -1,16 +1,15 @@
 package com.github.microtweak.validator.conditional.core.spi;
 
-import com.github.microtweak.validator.conditional.core.exception.ConstraintValidatorException;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.commons.lang3.reflect.ConstructorUtils;
-
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.validation.ConstraintValidator;
-import java.lang.reflect.InvocationTargetException;
+import javax.validation.ValidatorFactory;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.ServiceLoader;
 import java.util.Set;
+
+import static javax.validation.Validation.buildDefaultValidatorFactory;
 
 public interface PlatformProvider {
 
@@ -31,10 +30,15 @@ public interface PlatformProvider {
         return true;
     }
 
-    <CV extends ConstraintValidator<?, ?>> CV getConstraintValidatorInstance(Class<CV> constraintValidatorClass);
+    ValidatorFactory getValidatorFactory();
 
+    default <CV extends ConstraintValidator<?, ?>> CV getConstraintValidatorInstance(Class<CV> constraintValidatorClass) {
+        return getValidatorFactory().getConstraintValidatorFactory().getInstance(constraintValidatorClass);
+    }
 
     class DefaultPlatformHelper implements PlatformProvider {
+
+        private ValidatorFactory validationFactory;
 
         @Override
         public int getOrdinal() {
@@ -42,18 +46,18 @@ public interface PlatformProvider {
         }
 
         @Override
-        public <CV extends ConstraintValidator<?, ?>> CV getConstraintValidatorInstance(Class<CV> constraintValidatorClass) {
-            try {
-                return ConstructorUtils.invokeExactConstructor(constraintValidatorClass);
-            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-                throw new ConstraintValidatorException("ConstraintValidator does not have a no-args constructor or this constructor is private", e);
-            } catch (InvocationTargetException e) {
-                return ExceptionUtils.rethrow(e.getTargetException());
+        public ValidatorFactory getValidatorFactory() {
+            if (validationFactory == null) {
+                validationFactory = buildDefaultValidatorFactory();
             }
+            return validationFactory;
         }
+
     }
 
     class CdiPlatformHelper implements PlatformProvider {
+
+        private Instance<ValidatorFactory> validatorFactory;
 
         @Override
         public int getOrdinal() {
@@ -63,16 +67,18 @@ public interface PlatformProvider {
         @Override
         public boolean isAvailable() {
             try {
-                CDI.current().getBeanManager();
-                return true;
+                if (validatorFactory == null) {
+                    validatorFactory = CDI.current().select(ValidatorFactory.class);
+                }
+                return validatorFactory.isResolvable();
             } catch (Throwable e) {
                 return false;
             }
         }
 
         @Override
-        public <CV extends ConstraintValidator<?, ?>> CV getConstraintValidatorInstance(Class<CV> constraintValidatorClass) {
-            return CDI.current().select(constraintValidatorClass).get();
+        public ValidatorFactory getValidatorFactory() {
+            return validatorFactory.get();
         }
 
     }
