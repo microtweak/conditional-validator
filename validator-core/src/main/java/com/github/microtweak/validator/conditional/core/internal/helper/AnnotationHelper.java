@@ -6,10 +6,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,7 +20,7 @@ public final class AnnotationHelper {
         return readAllAttributesByCriteria(annotation, (method) -> true);
     }
 
-    public static Map<String, Object> readAllAtributeExcept(Annotation annotation, String... exceptAttributes) {
+    public static Map<String, Object> readAllAttributesExcept(Annotation annotation, String... exceptAttributes) {
         return readAllAttributesByCriteria(annotation, (method) -> !contains(exceptAttributes, method.getName()));
     }
 
@@ -36,7 +33,14 @@ public final class AnnotationHelper {
         return Arrays.stream( annotation.annotationType().getDeclaredMethods() )
             .filter(attr -> attr.getParameterCount() == 0)
             .filter(predicate)
-            .collect(Collectors.toMap(Method::getName, attr -> readAttribute(annotation, attr, Object.class)));
+            .map(attr -> {
+                final Object value = readAttribute(annotation, attr, Object.class);
+                return value != null
+                    ? new AbstractMap.SimpleEntry<>(attr.getName(), value)
+                    : null;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     private static <R> R readAttribute(Annotation annotation, Method attribute, Class<R> returnType) {

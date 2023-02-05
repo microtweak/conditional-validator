@@ -1,12 +1,10 @@
 package com.github.microtweak.validator.conditional.internal.literal;
 
+import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +37,12 @@ public class ConstraintLiteral<A extends Annotation> {
         attrs.putIfAbsent("message", "It is not valid");
         attrs.putIfAbsent("groups", new Class[0]);
         attrs.putIfAbsent("payload", new Class[0]);
+
+        final boolean isCvConstraint = annotationType.isAnnotationPresent(WhenActivatedValidateAs.class);
+
+        if (isCvConstraint && !attributes.containsKey("expression")) {
+            attrs.putIfAbsent("expression", "true");
+        }
 
         return AnnotationHelper.createAnnotation(annotationType, attrs);
     }

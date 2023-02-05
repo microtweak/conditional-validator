@@ -6,6 +6,7 @@ import org.apache.commons.lang3.AnnotationUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -30,11 +31,21 @@ class FakeAnnotationInvocationHandler<A extends Annotation> implements Invocatio
             case "toString":
                 return AnnotationUtils.toString(annotationProxy);
 
+            case "getClass":
             case "annotationType":
                 return annotationType;
 
+            case "clone":
+                return AnnotationHelper.createAnnotation(annotationType, new HashMap<>(attributes));
+
+            case "notify":
+            case "notifyAll":
+            case "wait":
+            case "finalize":
+                return method.invoke(attributes);
+
             default:
-                return attributes.containsKey(name) ? attributes.get(name) : method.invoke(attributes);
+                return attributes.get(name);
         }
     }
 

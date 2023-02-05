@@ -2,7 +2,7 @@ package com.github.microtweak.validator.conditional.core.internal.helper;
 
 import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
 import com.github.microtweak.validator.conditional.core.exception.ConstraintValidatorException;
-import com.github.microtweak.validator.conditional.core.internal.ConditinalDescriptor;
+import com.github.microtweak.validator.conditional.core.internal.CvConstraintDescriptorImpl;
 import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider;
 import com.github.microtweak.validator.conditional.core.spi.PlatformProvider;
@@ -12,13 +12,9 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,20 +62,8 @@ public final class BeanValidationHelper {
             );
     }
 
-    public static Annotation getActualBeanValidationContraintOf(Annotation conditionalConstraint) {
-        final Class<? extends Annotation> actualConstraintType = conditionalConstraint.annotationType().getAnnotation(WhenActivatedValidateAs.class).value();
-
-        if (actualConstraintType == null) {
-            throw new IllegalArgumentException(
-                format("Conditional constraint is not annotated with %s!", WhenActivatedValidateAs.class)
-            );
-        }
-
-        final Map<String, Object> attributes = AnnotationHelper.readAllAtributeExcept(conditionalConstraint, "expression");
-        return AnnotationHelper.createAnnotation(actualConstraintType, attributes);
-    }
-
-    public static Class<? extends ConstraintValidator> findConstraintValidatorClass(Class<? extends Annotation> constraintClass, Class<?> validatedType) {
+    @SuppressWarnings("unchecked")
+    public static <A extends Annotation> Class<? extends ConstraintValidator<A, ?>> findConstraintValidatorClass(Class<A> constraintClass, Class<?> validatedType) {
         Set<ConstraintValidatorDescriptor> availableValidators = getValidatorAnnotatedInConstraint(constraintClass);
 
         if (ObjectUtils.isEmpty(availableValidators)) {
@@ -109,30 +93,32 @@ public final class BeanValidationHelper {
         return foundValidators.stream()
             .sorted(ConstraintValidatorDescriptor.hierarchySortComparator(validatedType))
             .findFirst()
-            .map(ConstraintValidatorDescriptor::getValidatorImplClass)
+            .map(descriptor -> (Class<? extends ConstraintValidator<A, ?>>) descriptor.getValidatorImplClass())
             .orElseThrow(
                 () -> new ConstraintValidatorException( format("Validator not found for type %s", validatedType.getName()) )
             );
     }
 
-    public static Set<ConditinalDescriptor> getConditinalDescriptorOf(Class<?> conditionalValidatedClass) {
+    public static Set<ValidationPoint> getAllValidationPointsAt(Class<?> conditionalValidatedClass) {
         return FieldUtils.getAllFieldsList(conditionalValidatedClass).stream()
             .map(ValidationPoint::of)
             .filter(Objects::nonNull)
-            .flatMap(target -> target.getConstraints().stream()
-                .map(constraint -> new ConditinalDescriptor(target, constraint))
-            )
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    public static <A extends Annotation> Set<CvConstraintDescriptorImpl<A>> getAllConstraintDescriptorOf(ValidationPoint validationPoint) {
+        return validationPoint.getConstraints().stream()
+            .map(constraint -> new CvConstraintDescriptorImpl<A>(constraint, validationPoint.getType()))
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @SuppressWarnings("unchecked")
-    public static boolean invokeConstraintValidator(Object validatedBean, ConditinalDescriptor descriptor, ConstraintValidatorContext context) {
-        final Object value = descriptor.getValidationPoint().getValidatedValue(validatedBean);
-
-        final ConstraintValidator<Annotation, Object> validator = platformHelper.getConstraintValidatorInstance(descriptor.getValidatorClass());
-        validator.initialize(descriptor.getActualConstraint());
-
-        return validator.isValid(value, context);
+    public static ConstraintValidator<Annotation, Object> getInitializedConstraintValidator(CvConstraintDescriptorImpl<Annotation> descriptor) {
+        return (ConstraintValidator<Annotation, Object>) descriptor.getConstraintValidatorClasses().stream()
+            .map(platformHelper::getConstraintValidatorInstance)
+            .peek(validator -> validator.initialize(descriptor.getAnnotation()))
+            .findFirst()
+            .orElseThrow(() -> null);
     }
 
 }

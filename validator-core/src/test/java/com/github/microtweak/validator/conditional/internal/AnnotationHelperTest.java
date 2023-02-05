@@ -4,7 +4,6 @@ import com.github.microtweak.validator.conditional.core.internal.helper.Annotati
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotEmptyListLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotNullListLiteral;
-import com.github.microtweak.validator.conditional.internal.literal.RepeatableListeral;
 import com.github.microtweak.validator.conditional.junit5.CoreTest;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +66,7 @@ public class AnnotationHelperTest {
             .attribute("flags", new Pattern.Flag[0])
             .build();
 
-        final Map<String, Object> attrs = AnnotationHelper.readAllAtributeExcept(fakeEmail, "regexp");
+        final Map<String, Object> attrs = AnnotationHelper.readAllAttributesExcept(fakeEmail, "regexp");
 
         assertAll(
             () -> assertNull(attrs.get("regexp")),

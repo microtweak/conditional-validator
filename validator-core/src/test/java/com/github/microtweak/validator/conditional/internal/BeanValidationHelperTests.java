@@ -4,7 +4,9 @@ import com.github.microtweak.validator.conditional.bean.Address;
 import com.github.microtweak.validator.conditional.core.constraint.EmailWhen;
 import com.github.microtweak.validator.conditional.core.constraint.NotNullWhen;
 import com.github.microtweak.validator.conditional.core.exception.ConstraintValidatorException;
-import com.github.microtweak.validator.conditional.core.internal.ConditinalDescriptor;
+import com.github.microtweak.validator.conditional.core.internal.CvConstraintAnnotationDescriptor;
+import com.github.microtweak.validator.conditional.core.internal.CvConstraintDescriptorImpl;
+import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraint;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraintCharSequenceValidator;
@@ -13,11 +15,11 @@ import com.github.microtweak.validator.conditional.internal.literal.ConstraintLi
 import com.github.microtweak.validator.conditional.junit5.ProviderTest;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.ConstraintValidator;
 import javax.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,7 @@ public class BeanValidationHelperTests {
     @Test
     public void extractActualBeanValidationContraint() {
         final NotNullWhen notNullWhen = new ConstraintLiteral<>(NotNullWhen.class).build();
-        final Annotation actualNotNull = BeanValidationHelper.getActualBeanValidationContraintOf(notNullWhen);
+        final Annotation actualNotNull = new CvConstraintAnnotationDescriptor(notNullWhen).getActualBeanValidationConstraint();
 
         assertAll(
             () -> assertNotNull(actualNotNull),
@@ -36,10 +38,10 @@ public class BeanValidationHelperTests {
         );
 
         final EmailWhen emailWhen = new ConstraintLiteral<>(EmailWhen.class)
-                .attribute("regexp", ".*")
-                .attribute("flags", new Pattern.Flag[0])
-                .build();
-        final Annotation actualEmail = BeanValidationHelper.getActualBeanValidationContraintOf(emailWhen);
+            .attribute("regexp", ".*")
+            .attribute("flags", new Pattern.Flag[0])
+            .build();
+        final Annotation actualEmail = new CvConstraintAnnotationDescriptor(emailWhen).getActualBeanValidationConstraint();
 
         assertAll(
             () -> assertNotNull(actualEmail),
@@ -104,32 +106,37 @@ public class BeanValidationHelperTests {
     }
 
     @Test
-    public void extractConditionalDescriptor() {
-        final Set<ConditinalDescriptor> descriptors = BeanValidationHelper.getConditinalDescriptorOf(Address.class);
+    public void extractValidationPointAndConstraintDescriptor() {
+        for (final ValidationPoint validationPoint : BeanValidationHelper.getAllValidationPointsAt(Address.class)) {
+            final CvConstraintDescriptorImpl<?> descriptor = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint).iterator().next();
 
-        assertEquals(1, descriptors.size());
-
-        final ConditinalDescriptor descriptor = descriptors.iterator().next();
-
-        assertAll(
-            () -> assertEquals("street", descriptor.getName()),
-            () -> assertEquals(Address.class, descriptor.getValidationPoint().getDeclaringClass()),
-            () -> assertEquals(String.class, descriptor.getValidationPoint().getType()),
-            () -> assertEquals(NotEmpty.class, descriptor.getActualConstraint().annotationType())
-        );
+            assertAll(
+                () -> assertEquals("street", validationPoint.getName()),
+                () -> assertEquals(Address.class, validationPoint.getDeclaringClass()),
+                () -> assertEquals(String.class, validationPoint.getType()),
+                () -> assertEquals(NotEmpty.class, descriptor.getAnnotation().annotationType())
+            );
+        }
     }
 
     @Test
     public void invokeConstraintValidator() {
         final Address address = new Address();
-        final ConditinalDescriptor descriptor = BeanValidationHelper.getConditinalDescriptorOf(address.getClass()).iterator().next();
-        final BooleanSupplier constraintValidatorExecutor = () -> BeanValidationHelper.invokeConstraintValidator(address, descriptor, null);
 
-        assertFalse(constraintValidatorExecutor);
+        for (final ValidationPoint validationPoint : BeanValidationHelper.getAllValidationPointsAt(address.getClass())) {
+            final ConstraintValidator<Annotation, Object> validator = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint).stream()
+                    .map(BeanValidationHelper::getInitializedConstraintValidator)
+                    .findFirst()
+                    .orElseThrow(() -> new NullPointerException("No validator found"));
 
-        address.setStreet("1234 Main Street");
+            final BooleanSupplier constraintValidatorExecutor = () -> validator.isValid(validationPoint.getValidatedValue(address), null);
 
-        assertTrue(constraintValidatorExecutor);
+            assertFalse(constraintValidatorExecutor);
+
+            address.setStreet("1234 Main Street");
+
+            assertTrue(constraintValidatorExecutor);
+        }
     }
 
 }

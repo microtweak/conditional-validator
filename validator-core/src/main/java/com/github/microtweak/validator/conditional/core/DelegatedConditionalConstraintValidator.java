@@ -1,12 +1,14 @@
 package com.github.microtweak.validator.conditional.core;
 
-import com.github.microtweak.validator.conditional.core.internal.ConditinalDescriptor;
-import com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper;
+import com.github.microtweak.validator.conditional.core.internal.CvConstraintDescriptorImpl;
+import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Set;
+import java.lang.annotation.Annotation;
+
+import static com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper.*;
 
 @Slf4j
 public class DelegatedConditionalConstraintValidator implements ConstraintValidator<ConditionalValidate, Object> {
@@ -21,29 +23,30 @@ public class DelegatedConditionalConstraintValidator implements ConstraintValida
 
     @Override
     public boolean isValid(Object validatedBean, ConstraintValidatorContext context) {
-        final Set<ConditinalDescriptor> conditionalDescriptors = BeanValidationHelper.getConditinalDescriptorOf( validatedBean.getClass() );
-
         context.disableDefaultConstraintViolation();
 
-        boolean isValid = true;
+        boolean isAllConstraintsValid = true;
 
-        for (ConditinalDescriptor descriptor : conditionalDescriptors) {
-            if (!evaluator.isTrueExpression(validatedBean, descriptor.getExpression())) {
-                continue;
-            }
+        for (final ValidationPoint validationPoint : getAllValidationPointsAt(validatedBean.getClass())) {
+            for (final CvConstraintDescriptorImpl<Annotation> descriptor : getAllConstraintDescriptorOf(validationPoint)) {
+                if (!evaluator.isTrueExpression(validatedBean, descriptor.getExpression())) {
+                    continue;
+                }
 
-            final boolean isDelegatedValid = BeanValidationHelper.invokeConstraintValidator(validatedBean, descriptor, context);
+                final ConstraintValidator<Annotation, Object> validator = getInitializedConstraintValidator(descriptor);
+                final Object value = validationPoint.getValidatedValue(validatedBean);
 
-            if (!isDelegatedValid) {
-                isValid = false;
+                if (!validator.isValid(value, context)) {
+                    isAllConstraintsValid = false;
 
-                context.buildConstraintViolationWithTemplate( descriptor.getConstraintMessage() )
-                    .addPropertyNode( descriptor.getName() )
-                    .addConstraintViolation();
+                    context.buildConstraintViolationWithTemplate( descriptor.getMessageTemplate() )
+                        .addPropertyNode(validationPoint.getName())
+                        .addConstraintViolation();
+                }
             }
         }
 
-        return isValid;
+        return isAllConstraintsValid;
     }
 
 }
