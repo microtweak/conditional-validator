@@ -18,7 +18,6 @@ import static org.apache.commons.lang3.reflect.TypeUtils.getRawType;
 @EqualsAndHashCode(of = { "annotationClass", "validatedClass" })
 @ToString
 @Getter
-@SuppressWarnings("rawtypes")
 class ConstraintValidatorDescriptor {
 
     private static final TypeVariable<?> annotationTypeGeneric = ConstraintValidator.class.getTypeParameters()[0];
@@ -27,10 +26,10 @@ class ConstraintValidatorDescriptor {
     private final Class<? extends Annotation> annotationClass;
 
     private final Class<?> validatedClass;
-    private final Class<? extends ConstraintValidator> validatorImplClass;
+    private final Class<? extends ConstraintValidator<?, ?>> validatorImplClass;
 
     @SuppressWarnings("unchecked")
-    public ConstraintValidatorDescriptor(Class<? extends ConstraintValidator> validatorImplClass) {
+    public ConstraintValidatorDescriptor(Class<? extends ConstraintValidator<?, ?>> validatorImplClass) {
         this.annotationClass = (Class<? extends Annotation>) getRawType(annotationTypeGeneric, validatorImplClass);
         this.validatedClass =  getRawType(validatedTypeGeneric, validatorImplClass);
         this.validatorImplClass = validatorImplClass;

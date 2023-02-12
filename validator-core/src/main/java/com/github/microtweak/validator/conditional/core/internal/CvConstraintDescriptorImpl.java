@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper.findConstraintValidatorClass;
 import static java.lang.String.format;
 
 @Getter
@@ -32,8 +31,7 @@ public class CvConstraintDescriptorImpl<T extends Annotation> implements Constra
     private final boolean reportAsSingleViolation;
 
     @SuppressWarnings("unchecked")
-    public CvConstraintDescriptorImpl(Annotation conditionalConstraint, Class<?> validatedType) {
-        final CvConstraintAnnotationDescriptor annotationDescriptor = new CvConstraintAnnotationDescriptor(conditionalConstraint);
+    public CvConstraintDescriptorImpl(CvConstraintAnnotationDescriptor annotationDescriptor, Class<? extends ConstraintValidator<T, ?>> constraintValidatorClass) {
         this.annotation = (T) annotationDescriptor.getActualBeanValidationConstraint();
         this.expression = annotationDescriptor.getExpression();
         this.messageTemplate = annotationDescriptor.getMessage();
@@ -42,10 +40,7 @@ public class CvConstraintDescriptorImpl<T extends Annotation> implements Constra
         this.attributes = annotationDescriptor.getAttributes();
         this.validationAppliesTo = annotationDescriptor.getValidationAppliesTo();
 
-        this.constraintValidatorClasses = Collections.singletonList(
-            findConstraintValidatorClass((Class<T>) annotation.annotationType(), validatedType)
-        );
-
+        this.constraintValidatorClasses = Collections.singletonList(constraintValidatorClass);
         this.reportAsSingleViolation = annotation.annotationType().isAnnotationPresent(ReportAsSingleViolation.class);
     }
 

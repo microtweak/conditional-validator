@@ -4,6 +4,8 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.validation.ConstraintValidator;
 import javax.validation.ValidatorFactory;
+import javax.validation.metadata.ConstraintDescriptor;
+import java.lang.annotation.Annotation;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.ServiceLoader;
@@ -34,6 +36,15 @@ public interface PlatformProvider {
 
     default <CV extends ConstraintValidator<?, ?>> CV getConstraintValidatorInstance(Class<CV> constraintValidatorClass) {
         return getValidatorFactory().getConstraintValidatorFactory().getInstance(constraintValidatorClass);
+    }
+
+    @SuppressWarnings("unchecked")
+    default ConstraintValidator<Annotation, Object> getInitializedConstraintValidator(ConstraintDescriptor<Annotation> descriptor) {
+        return (ConstraintValidator<Annotation, Object>) descriptor.getConstraintValidatorClasses().stream()
+            .map(this::getConstraintValidatorInstance)
+            .peek(validator -> validator.initialize(descriptor.getAnnotation()))
+            .findFirst()
+            .orElseThrow(() -> null);
     }
 
     class DefaultPlatformHelper implements PlatformProvider {

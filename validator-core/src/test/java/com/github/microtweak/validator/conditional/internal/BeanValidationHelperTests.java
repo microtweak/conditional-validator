@@ -8,11 +8,15 @@ import com.github.microtweak.validator.conditional.core.internal.CvConstraintAnn
 import com.github.microtweak.validator.conditional.core.internal.CvConstraintDescriptorImpl;
 import com.github.microtweak.validator.conditional.core.internal.annotated.ValidationPoint;
 import com.github.microtweak.validator.conditional.core.internal.helper.BeanValidationHelper;
+import com.github.microtweak.validator.conditional.core.internal.helper.ConstraintValidatorRegistrar;
+import com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider;
+import com.github.microtweak.validator.conditional.core.spi.PlatformProvider;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraint;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraintCharSequenceValidator;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraintStringValidator;
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
 import com.github.microtweak.validator.conditional.junit5.ProviderTest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintValidator;
@@ -26,6 +30,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ProviderTest
 public class BeanValidationHelperTests {
+
+    private static final PlatformProvider platform = PlatformProvider.getInstance();
+    private static final ConstraintValidatorRegistrar registrar = new ConstraintValidatorRegistrar();
+
+    @BeforeAll
+    public static void onInitTests() {
+        final BeanValidationImplementationProvider bvProvider = BeanValidationImplementationProvider.getInstance();
+        registrar.addValidators(bvProvider.getAvailableConstraintValidators());
+    }
 
     @Test
     public void extractActualBeanValidationContraint() {
@@ -51,7 +64,7 @@ public class BeanValidationHelperTests {
 
     @Test
     public void findBuiltInValidatorClass() {
-        final Class<?> notEmptyStringValidator = BeanValidationHelper.findConstraintValidatorClass(NotEmpty.class, String.class);
+        final Class<?> notEmptyStringValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, NotEmpty.class, String.class);
         final List<String> notEmptyStringValidatorImpl = Arrays.asList(
             "org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForCharSequence",
             "org.apache.bval.constraints.NotEmptyValidatorForCharSequence"
@@ -59,7 +72,7 @@ public class BeanValidationHelperTests {
 
         assertTrue(() -> notEmptyStringValidatorImpl.contains(notEmptyStringValidator.getName()));
 
-        final Class<?> notEmptyCollectionValidator = BeanValidationHelper.findConstraintValidatorClass(NotEmpty.class, List.class);
+        final Class<?> notEmptyCollectionValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, NotEmpty.class, List.class);
         final List<String> notEmptyCollectionValidatorImpl = Arrays.asList(
             "org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForCollection",
             "org.apache.bval.constraints.NotEmptyValidatorForCollection"
@@ -69,46 +82,46 @@ public class BeanValidationHelperTests {
 
         assertThrows(
             ConstraintValidatorException.class,
-            () -> BeanValidationHelper.findConstraintValidatorClass(NotBlank.class, Integer.class)
+            () -> BeanValidationHelper.findConstraintValidatorClass(registrar, NotBlank.class, Integer.class)
         );
     }
 
     @Test
     public void findBuiltInValidatorClassByPrimitiveAndWrapperType() {
-        final Class<?> minIntPrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(Min.class, Integer.class);
-        final Class<?> minIntWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(Min.class, int.class);
+        final Class<?> minIntPrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, Min.class, Integer.class);
+        final Class<?> minIntWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, Min.class, int.class);
 
         assertEquals(minIntPrimitiveValidator, minIntWrapperValidator);
 
-        final Class<?> assertTruePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(AssertTrue.class, Boolean.class);
-        final Class<?> assertTrueWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(AssertTrue.class, boolean.class);
+        final Class<?> assertTruePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, AssertTrue.class, Boolean.class);
+        final Class<?> assertTrueWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, AssertTrue.class, boolean.class);
 
         assertEquals(assertTruePrimitiveValidator, assertTrueWrapperValidator);
 
-        final Class<?> assertFalsePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(AssertFalse.class, Boolean.class);
-        final Class<?> assertFalseWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(AssertFalse.class, boolean.class);
+        final Class<?> assertFalsePrimitiveValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, AssertFalse.class, Boolean.class);
+        final Class<?> assertFalseWrapperValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, AssertFalse.class, boolean.class);
 
         assertEquals(assertFalsePrimitiveValidator, assertFalseWrapperValidator);
     }
 
     @Test
     public void findCustomValidatorClass() {
-        final Class<?> fakeConstraintStringValidator = BeanValidationHelper.findConstraintValidatorClass(FakeConstraint.class, String.class);
+        final Class<?> fakeConstraintStringValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, FakeConstraint.class, String.class);
         assertEquals(FakeConstraintStringValidator.class, fakeConstraintStringValidator);
 
-        final Class<?> fakeConstraintStringBuilderValidator = BeanValidationHelper.findConstraintValidatorClass(FakeConstraint.class, StringBuilder.class);
+        final Class<?> fakeConstraintStringBuilderValidator = BeanValidationHelper.findConstraintValidatorClass(registrar, FakeConstraint.class, StringBuilder.class);
         assertEquals(FakeConstraintCharSequenceValidator.class, fakeConstraintStringBuilderValidator);
 
         assertThrows(
             ConstraintValidatorException.class,
-            () -> BeanValidationHelper.findConstraintValidatorClass(FakeConstraint.class, Number.class)
+            () -> BeanValidationHelper.findConstraintValidatorClass(registrar, FakeConstraint.class, Number.class)
         );
     }
 
     @Test
     public void extractValidationPointAndConstraintDescriptor() {
         for (final ValidationPoint validationPoint : BeanValidationHelper.getAllValidationPointsAt(Address.class)) {
-            final CvConstraintDescriptorImpl<?> descriptor = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint).iterator().next();
+            final CvConstraintDescriptorImpl<?> descriptor = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint, registrar).iterator().next();
 
             assertAll(
                 () -> assertEquals("street", validationPoint.getName()),
@@ -124,8 +137,8 @@ public class BeanValidationHelperTests {
         final Address address = new Address();
 
         for (final ValidationPoint validationPoint : BeanValidationHelper.getAllValidationPointsAt(address.getClass())) {
-            final ConstraintValidator<Annotation, Object> validator = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint).stream()
-                    .map(BeanValidationHelper::getInitializedConstraintValidator)
+            final ConstraintValidator<Annotation, Object> validator = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint, registrar).stream()
+                    .map(platform::getInitializedConstraintValidator)
                     .findFirst()
                     .orElseThrow(() -> new NullPointerException("No validator found"));
 
