@@ -9,6 +9,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidatorFactory;
+import javax.validation.MessageInterpolator;
+import javax.validation.metadata.ConstraintDescriptor;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -76,6 +80,15 @@ public final class BeanValidationHelper {
             .orElseThrow(
                 () -> new ConstraintValidatorException( format("Validator not found for type %s", validatedType.getName()) )
             );
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ConstraintValidator<Annotation, Object> getInitializedConstraintValidator(ConstraintValidatorFactory constraintValidatorFactory, ConstraintDescriptor<Annotation> descriptor) {
+        return (ConstraintValidator<Annotation, Object>) descriptor.getConstraintValidatorClasses().stream()
+            .map(constraintValidatorFactory::getInstance)
+            .peek(validator -> validator.initialize(descriptor.getAnnotation()))
+            .findFirst()
+            .orElseThrow(() -> null);
     }
 
 }

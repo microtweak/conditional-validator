@@ -33,6 +33,7 @@
 
     <properties>
         <lombok.version>1.18.24</lombok.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <slf4j.version>1.7.26</slf4j.version>
         <cdi.version>2.0</cdi.version>
         <bean-validation.version>2.0.1.Final</bean-validation.version>

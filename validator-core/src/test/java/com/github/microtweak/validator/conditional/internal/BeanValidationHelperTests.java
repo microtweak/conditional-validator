@@ -138,9 +138,9 @@ public class BeanValidationHelperTests {
 
         for (final ValidationPoint validationPoint : BeanValidationHelper.getAllValidationPointsAt(address.getClass())) {
             final ConstraintValidator<Annotation, Object> validator = BeanValidationHelper.getAllConstraintDescriptorOf(validationPoint, registrar).stream()
-                    .map(platform::getInitializedConstraintValidator)
-                    .findFirst()
-                    .orElseThrow(() -> new NullPointerException("No validator found"));
+                .map(descriptor -> BeanValidationHelper.getInitializedConstraintValidator(platform.getConstraintValidatorFactory(), descriptor))
+                .findFirst()
+                .orElseThrow(() -> new NullPointerException("No validator found"));
 
             final BooleanSupplier constraintValidatorExecutor = () -> validator.isValid(validationPoint.getValidatedValue(address), null);
 
