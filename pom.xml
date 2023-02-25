@@ -5,12 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.microtweak</groupId>
-        <artifactId>microtweak-parent</artifactId>
-        <version>1.0.0</version>
-    </parent>
-
+    <groupId>com.github.microtweak</groupId>
     <artifactId>conditional-validator</artifactId>
     <version>0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -31,18 +26,67 @@
         <developerConnection>scm:git:git@github.com:microtweak/conditional-validator.git</developerConnection>
     </scm>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>salvadormarcos</id>
+            <name>Marcos Koch Salvador</name>
+            <url>https://github.com/salvadormarcos</url>
+        </developer>
+    </developers>
+
     <properties>
-        <lombok.version>1.18.24</lombok.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
-        <slf4j.version>1.7.26</slf4j.version>
+        <!-- Compiler options -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Maven plugins version -->
+        <maven-compiler.version>3.8.1</maven-compiler.version>
+        <maven-source.version>3.1.0</maven-source.version>
+        <maven-jar.version>3.3.0</maven-jar.version>
+        <maven-javadoc.version>3.1.0</maven-javadoc.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <serviceloader-maven-plugin.version>1.1.0</serviceloader-maven-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+
+        <!-- Java EE Specs -->
         <cdi.version>2.0</cdi.version>
         <bean-validation.version>2.0.1.Final</bean-validation.version>
         <el.version>3.0.0</el.version>
-        <glassfish-el.version>3.0.0</glassfish-el.version>
+
+        <!-- Java EE Specs Implementations -->
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <bval.version>2.0.2</bval.version>
+        <glassfish-el.version>3.0.0</glassfish-el.version>
+
+        <!-- Libraries -->
+        <lombok.version>1.18.24</lombok.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <slf4j.version>1.7.26</slf4j.version>
         <reflections.version>0.10.2</reflections.version>
+
+        <!-- Testing -->
+        <junit.version>5.4.2</junit.version>
+        <junit-surefire.version>1.3.2</junit-surefire.version>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -185,9 +229,75 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc.version}</version>
+                    <configuration>
+                        <source>8</source>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.jupiter</groupId>
+                            <artifactId>junit-jupiter-engine</artifactId>
+                            <version>${junit.version}</version>
+                        </dependency>
+
+                        <dependency>
+                            <groupId>org.junit.platform</groupId>
+                            <artifactId>junit-platform-surefire-provider</artifactId>
+                            <version>${junit-surefire.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
                     <groupId>eu.somatik.serviceloader-maven-plugin</groupId>
                     <artifactId>serviceloader-maven-plugin</artifactId>
-                    <version>1.1.0</version>
+                    <version>${serviceloader-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -196,14 +306,60 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
-                </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
