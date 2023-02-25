@@ -109,8 +109,8 @@
                         <configuration>
                             <skip>false</skip>
                             <properties>
-                                <includeTags>core,checklist</includeTags>
-                                <excludeTags>provider</excludeTags>
+                                <groups>core,checklist</groups>
+                                <excludedGroups>provider</excludedGroups>
                             </properties>
                         </configuration>
                     </execution>

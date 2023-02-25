@@ -86,8 +86,8 @@
                         <configuration>
                             <skip>false</skip>
                             <properties>
-                                <includeTags>provider,checklist</includeTags>
-                                <excludeTags>core</excludeTags>
+                                <groups>provider,checklist</groups>
+                                <excludedGroups>core</excludedGroups>
                             </properties>
                             <dependenciesToScan>
                                 <dependency>com.github.microtweak:conditional-validator-core</dependency>
