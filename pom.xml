@@ -48,14 +48,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Maven plugins version -->
-        <maven-compiler.version>3.8.1</maven-compiler.version>
-        <maven-source.version>3.1.0</maven-source.version>
+        <maven-compiler.version>3.10.1</maven-compiler.version>
+        <maven-source.version>3.2.1</maven-source.version>
         <maven-jar.version>3.3.0</maven-jar.version>
-        <maven-javadoc.version>3.1.0</maven-javadoc.version>
+        <maven-javadoc.version>3.5.0</maven-javadoc.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <serviceloader-maven-plugin.version>1.1.0</serviceloader-maven-plugin.version>
-        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <serviceloader-maven-plugin.version>1.4.0</serviceloader-maven-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 
         <!-- Java EE Specs -->
         <cdi.version>2.0</cdi.version>
