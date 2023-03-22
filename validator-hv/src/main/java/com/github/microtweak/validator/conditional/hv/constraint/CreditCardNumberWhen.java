@@ -14,6 +14,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link CreditCardNumber @CreditCardNumber}
+ */
 @WhenActivatedValidateAs(CreditCardNumber.class)
 @Repeatable(CreditCardNumberWhen.List.class)
 @Documented
@@ -36,6 +39,9 @@ public @interface CreditCardNumberWhen {
 	@OverridesAttribute(constraint = LuhnCheckWhen.class, name = "ignoreNonDigitCharacters")
 	boolean ignoreNonDigitCharacters() default false;
 
+	/**
+	 * Conditional version of constraint {@link CreditCardNumber.List @CreditCardNumber.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link DecimalMax @DecimalMax}
+ */
 @WhenActivatedValidateAs(DecimalMax.class)
 @Repeatable(DecimalMaxWhen.List.class)
 @Documented
@@ -32,6 +35,9 @@ public @interface DecimalMaxWhen {
 
 	boolean inclusive() default true;
 
+	/**
+	 * Conditional version of constraint {@link DecimalMax.List @DecimalMax.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

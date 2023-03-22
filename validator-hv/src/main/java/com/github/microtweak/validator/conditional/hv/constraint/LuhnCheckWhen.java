@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link LuhnCheck @LuhnCheck}
+ */
 @WhenActivatedValidateAs(LuhnCheck.class)
 @Repeatable(LuhnCheckWhen.List.class)
 @Documented
@@ -52,6 +55,9 @@ public @interface LuhnCheckWhen {
 	 */
 	boolean ignoreNonDigitCharacters() default true;
 
+	/**
+	 * Conditional version of constraint {@link LuhnCheck.List @LuhnCheck.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

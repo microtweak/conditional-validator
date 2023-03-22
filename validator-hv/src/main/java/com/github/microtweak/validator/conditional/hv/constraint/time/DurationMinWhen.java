@@ -12,6 +12,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link DurationMin @DurationMin}
+ */
 @WhenActivatedValidateAs(DurationMin.class)
 @Repeatable(DurationMinWhen.List.class)
 @Documented
@@ -48,6 +51,9 @@ public @interface DurationMinWhen {
 	 */
 	boolean inclusive() default true;
 
+	/**
+	 * Conditional version of constraint {@link DurationMin.List @DurationMin.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

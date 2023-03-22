@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link UniqueElements @UniqueElements}
+ */
 @WhenActivatedValidateAs(UniqueElements.class)
 @Repeatable(UniqueElementsWhen.List.class)
 @Documented
@@ -28,6 +31,9 @@ public @interface UniqueElementsWhen {
 
 	Class<? extends Payload>[] payload() default {};
 
+	/**
+	 * Conditional version of constraint {@link UniqueElements.List @UniqueElements.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

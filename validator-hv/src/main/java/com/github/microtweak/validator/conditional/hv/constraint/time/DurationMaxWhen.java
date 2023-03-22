@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link DurationMax @DurationMax}
+ */
 @WhenActivatedValidateAs(DurationMax.class)
 @Repeatable(DurationMaxWhen.List.class)
 @Documented
@@ -49,6 +52,9 @@ public @interface DurationMaxWhen {
 	 */
 	boolean inclusive() default true;
 
+	/**
+	 * Conditional version of constraint {@link DurationMax.List @DurationMax.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

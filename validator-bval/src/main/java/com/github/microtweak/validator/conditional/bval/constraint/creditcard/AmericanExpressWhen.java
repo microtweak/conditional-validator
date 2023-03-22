@@ -11,6 +11,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link AmericanExpress @AmericanExpress}
+ */
 @WhenActivatedValidateAs(AmericanExpress.class)
 @Documented
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })

@@ -14,6 +14,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link ISBN @ISBN}
+ */
 @WhenActivatedValidateAs(ISBN.class)
 @Repeatable(ISBNWhen.List.class)
 @Documented
@@ -31,6 +34,9 @@ public @interface ISBNWhen {
 
 	Type type() default Type.ISBN_13;
 
+	/**
+	 * Conditional version of constraint {@link ISBN.List @ISBN.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

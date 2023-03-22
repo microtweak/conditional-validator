@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Pattern @Pattern}
+ */
 @WhenActivatedValidateAs(Pattern.class)
 @Repeatable(PatternWhen.List.class)
 @Documented
@@ -47,6 +50,9 @@ public @interface PatternWhen {
 	 */
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link Pattern.List @Pattern.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Mod10Check @Mod10Check}
+ */
 @WhenActivatedValidateAs(Mod10Check.class)
 @Repeatable(Mod10CheckWhen.List.class)
 @Documented
@@ -62,6 +65,9 @@ public @interface Mod10CheckWhen {
 	 */
 	boolean ignoreNonDigitCharacters() default true;
 
+	/**
+	 * Conditional version of constraint {@link Mod10Check.List @Mod10Check.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

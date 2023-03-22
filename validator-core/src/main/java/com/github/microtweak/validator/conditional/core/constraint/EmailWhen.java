@@ -14,6 +14,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Email @Email}
+ */
 @WhenActivatedValidateAs(Email.class)
 @Repeatable(EmailWhen.List.class)
 @Documented
@@ -41,6 +44,9 @@ public @interface EmailWhen {
 	 */
 	Flag[] flags() default { };
 
+	/**
+	 * Conditional version of constraint {@link Email.List @Email.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

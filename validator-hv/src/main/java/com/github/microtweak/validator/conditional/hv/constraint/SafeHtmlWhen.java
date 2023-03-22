@@ -15,6 +15,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link SafeHtml @SafeHtml}
+ */
 @WhenActivatedValidateAs(SafeHtml.class)
 @Repeatable(SafeHtmlWhen.List.class)
 @Documented
@@ -54,6 +57,9 @@ public @interface SafeHtmlWhen {
 	 */
 	String baseURI() default "";
 
+	/**
+	 * Conditional version of constraint {@link SafeHtml.List @SafeHtml.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

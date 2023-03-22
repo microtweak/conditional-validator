@@ -16,6 +16,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Range @Range}
+ */
 @WhenActivatedValidateAs(Range.class)
 @Repeatable(RangeWhen.List.class)
 @Documented
@@ -35,6 +38,9 @@ public @interface RangeWhen {
 
 	@OverridesAttribute(constraint = Max.class, name = "value") long max() default Long.MAX_VALUE;
 
+	/**
+	 * Conditional version of constraint {@link Range.List @Range.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

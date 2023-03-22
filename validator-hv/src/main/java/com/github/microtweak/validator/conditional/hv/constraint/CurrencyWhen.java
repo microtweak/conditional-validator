@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Currency @Currency}
+ */
 @WhenActivatedValidateAs(Currency.class)
 @Repeatable(CurrencyWhen.List.class)
 @Documented
@@ -30,6 +33,9 @@ public @interface CurrencyWhen {
 
 	String[] value();
 
+	/**
+	 * Conditional version of constraint {@link Currency.List @Currency.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Positive @Positive}
+ */
 @WhenActivatedValidateAs(Positive.class)
 @Repeatable(PositiveWhen.List.class)
 @Documented
@@ -28,6 +31,9 @@ public @interface PositiveWhen {
 
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link Positive.List @Positive.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

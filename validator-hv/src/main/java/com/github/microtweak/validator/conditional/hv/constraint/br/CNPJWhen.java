@@ -12,6 +12,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link CNPJ @CNPJ}
+ */
 @WhenActivatedValidateAs(CNPJ.class)
 @Repeatable(CNPJWhen.List.class)
 @Documented
@@ -27,6 +30,9 @@ public @interface CNPJWhen {
 
     Class<? extends Payload>[] payload() default { };
 
+    /**
+     * Conditional version of constraint {@link CNPJ.List @CNPJ.List}
+     */
     @Documented
     @Target({ METHOD, FIELD })
     @Retention(RUNTIME)

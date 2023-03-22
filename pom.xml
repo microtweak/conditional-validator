@@ -264,6 +264,7 @@
                     <version>${maven-javadoc.version}</version>
                     <configuration>
                         <source>8</source>
+                        <doclint>reference</doclint>
                     </configuration>
                     <executions>
                         <execution>

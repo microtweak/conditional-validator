@@ -14,6 +14,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Mod11Check @Mod11Check}
+ */
 @WhenActivatedValidateAs(Mod11Check.class)
 @Repeatable(Mod11CheckWhen.List.class)
 @Documented
@@ -81,6 +84,9 @@ public @interface Mod11CheckWhen {
 	 */
 	ProcessingDirection processingDirection() default ProcessingDirection.RIGHT_TO_LEFT;
 
+	/**
+	 * Conditional version of constraint {@link Mod11Check.List @Mod11Check.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

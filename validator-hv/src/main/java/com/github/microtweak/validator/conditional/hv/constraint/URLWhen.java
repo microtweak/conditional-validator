@@ -15,6 +15,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link URL @URL}
+ */
 @WhenActivatedValidateAs(URL.class)
 @Repeatable(URLWhen.List.class)
 @Documented
@@ -56,6 +59,9 @@ public @interface URLWhen {
 	 */
 	@OverridesAttribute(constraint = Pattern.class, name = "flags") Pattern.Flag[] flags() default { };
 
+	/**
+	 * Conditional version of constraint {@link URL.List @URL.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

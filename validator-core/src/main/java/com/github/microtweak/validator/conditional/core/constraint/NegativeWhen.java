@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Negative @Negative}
+ */
 @WhenActivatedValidateAs(Negative.class)
 @Repeatable(NegativeWhen.List.class)
 @Documented
@@ -28,6 +31,9 @@ public @interface NegativeWhen {
 
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link Negative.List @Negative.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

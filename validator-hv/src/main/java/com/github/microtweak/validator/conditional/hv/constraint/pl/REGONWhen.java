@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link REGON @REGON}
+ */
 @WhenActivatedValidateAs(REGON.class)
 @Repeatable(REGONWhen.List.class)
 @Documented
@@ -28,6 +31,9 @@ public @interface REGONWhen {
 
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link REGON.List @REGON.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

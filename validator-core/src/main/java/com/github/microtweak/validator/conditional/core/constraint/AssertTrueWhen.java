@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link AssertTrue @AssertTrue}
+ */
 @WhenActivatedValidateAs(AssertTrue.class)
 @Repeatable(AssertTrueWhen.List.class)
 @Documented
@@ -28,6 +31,9 @@ public @interface AssertTrueWhen {
 
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link AssertTrue.List @AssertTrue.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

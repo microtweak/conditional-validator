@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Min @Min}
+ */
 @WhenActivatedValidateAs(Min.class)
 @Repeatable(MinWhen.List.class)
 @Documented
@@ -30,6 +33,9 @@ public @interface MinWhen {
 
 	long value();
 
+	/**
+	 * Conditional version of constraint {@link Min.List @Min.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

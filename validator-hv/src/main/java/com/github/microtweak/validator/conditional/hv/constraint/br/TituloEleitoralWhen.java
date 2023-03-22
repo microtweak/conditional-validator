@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link TituloEleitoral @TituloEleitoral}
+ */
 @WhenActivatedValidateAs(TituloEleitoral.class)
 @Repeatable(TituloEleitoralWhen.List.class)
 @Target({ METHOD, FIELD })
@@ -27,6 +30,9 @@ public @interface TituloEleitoralWhen {
 
 	Class<? extends Payload>[] payload() default { };
 
+	/**
+	 * Conditional version of constraint {@link TituloEleitoral.List @TituloEleitoral.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

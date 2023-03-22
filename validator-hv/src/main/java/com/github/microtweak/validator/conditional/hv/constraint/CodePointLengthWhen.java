@@ -14,6 +14,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link CodePointLength @CodePointLength}
+ */
 @WhenActivatedValidateAs(CodePointLength.class)
 @Repeatable(CodePointLengthWhen.List.class)
 @Documented
@@ -35,6 +38,9 @@ public @interface CodePointLengthWhen {
 
 	NormalizationStrategy normalizationStrategy() default NormalizationStrategy.NONE;
 
+	/**
+	 * Conditional version of constraint {@link CodePointLength.List @CodePointLength.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

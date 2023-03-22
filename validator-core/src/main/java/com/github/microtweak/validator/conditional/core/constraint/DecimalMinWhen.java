@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link DecimalMin @DecimalMin}
+ */
 @WhenActivatedValidateAs(DecimalMin.class)
 @Repeatable(DecimalMinWhen.List.class)
 @Documented
@@ -32,6 +35,9 @@ public @interface DecimalMinWhen {
 
 	boolean inclusive() default true;
 
+	/**
+	 * Conditional version of constraint {@link DecimalMin.List @DecimalMin.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)

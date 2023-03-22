@@ -13,6 +13,9 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Conditional version of constraint {@link Length @Length}
+ */
 @WhenActivatedValidateAs(Length.class)
 @Repeatable(LengthWhen.List.class)
 @Documented
@@ -32,6 +35,9 @@ public @interface LengthWhen {
 
 	int max() default Integer.MAX_VALUE;
 
+	/**
+	 * Conditional version of constraint {@link Length.List @Length.List}
+	 */
 	@Documented
 	@Target({ METHOD, FIELD })
 	@Retention(RUNTIME)
