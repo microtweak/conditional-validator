@@ -4,7 +4,7 @@ import com.github.microtweak.validator.conditional.core.internal.helper.Annotati
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotEmptyListLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotNullListLiteral;
-import com.github.microtweak.validator.conditional.junit5.CoreTest;
+import com.github.microtweak.validator.conditional.tags.CoreTest;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.constraints.Email;

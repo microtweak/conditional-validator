@@ -15,7 +15,7 @@ import com.github.microtweak.validator.conditional.internal.constraint.FakeConst
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraintCharSequenceValidator;
 import com.github.microtweak.validator.conditional.internal.constraint.FakeConstraintStringValidator;
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
-import com.github.microtweak.validator.conditional.junit5.ProviderTest;
+import com.github.microtweak.validator.conditional.tags.ProviderTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

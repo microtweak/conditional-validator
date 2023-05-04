@@ -1,4 +1,4 @@
-package com.github.microtweak.validator.conditional.junit5;
+package com.github.microtweak.validator.conditional.tags;
 
 import org.junit.jupiter.api.Tag;
 

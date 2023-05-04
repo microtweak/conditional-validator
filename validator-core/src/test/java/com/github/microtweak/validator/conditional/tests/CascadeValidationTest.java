@@ -2,7 +2,7 @@ package com.github.microtweak.validator.conditional.tests;
 
 import com.github.microtweak.validator.conditional.bean.Address;
 import com.github.microtweak.validator.conditional.bean.Person;
-import com.github.microtweak.validator.conditional.junit5.ProviderTest;
+import com.github.microtweak.validator.conditional.tags.ProviderTest;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;

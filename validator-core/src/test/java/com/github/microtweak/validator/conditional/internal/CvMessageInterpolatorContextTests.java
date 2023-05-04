@@ -8,7 +8,7 @@ import com.github.microtweak.validator.conditional.core.internal.CvConstraintDes
 import com.github.microtweak.validator.conditional.core.internal.CvMessageInterpolatorContext;
 import com.github.microtweak.validator.conditional.core.spi.PlatformProvider;
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
-import com.github.microtweak.validator.conditional.junit5.ProviderTest;
+import com.github.microtweak.validator.conditional.tags.ProviderTest;
 import org.apache.commons.lang3.function.TriFunction;
 import org.junit.jupiter.api.Test;
 
