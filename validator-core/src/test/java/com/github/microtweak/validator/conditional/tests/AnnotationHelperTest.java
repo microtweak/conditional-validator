@@ -1,6 +1,7 @@
-package com.github.microtweak.validator.conditional.internal;
+package com.github.microtweak.validator.conditional.tests;
 
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
+import com.github.microtweak.validator.conditional.internal.FakeAnnotatedElement;
 import com.github.microtweak.validator.conditional.internal.literal.ConstraintLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotEmptyListLiteral;
 import com.github.microtweak.validator.conditional.internal.literal.NotNullListLiteral;

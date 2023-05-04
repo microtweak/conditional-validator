@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ProviderTest
-public class BeanHierarchyTest extends BaseConstraintViolationTest {
+public class HierarchyValidationTest extends BaseBvIntegrationTest {
 
     @Test
     public void validationWithoutInheritance() {
@@ -34,8 +34,8 @@ public class BeanHierarchyTest extends BaseConstraintViolationTest {
         Set<ConstraintViolation<Product>> violations = applyValidation(book);
 
         assertAll(
-                () -> assertHasPropertyViolation(violations, "description"),
-                () -> assertHasPropertyViolation(violations, "isbn")
+            () -> assertHasPropertyViolation(violations, "description"),
+            () -> assertHasPropertyViolation(violations, "isbn")
         );
     }
 

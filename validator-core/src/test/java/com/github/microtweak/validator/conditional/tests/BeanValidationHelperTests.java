@@ -1,4 +1,4 @@
-package com.github.microtweak.validator.conditional.internal;
+package com.github.microtweak.validator.conditional.tests;
 
 import com.github.microtweak.validator.conditional.bean.Address;
 import com.github.microtweak.validator.conditional.core.constraint.EmailWhen;

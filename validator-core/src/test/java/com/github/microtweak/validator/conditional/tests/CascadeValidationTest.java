@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ProviderTest
-public class CascadeValidationTest extends BaseConstraintViolationTest {
+public class CascadeValidationTest extends BaseBvIntegrationTest {
 
     @Test
     public void firstLevelOfGraph() {
@@ -20,8 +20,8 @@ public class CascadeValidationTest extends BaseConstraintViolationTest {
         Set<ConstraintViolation<Person>> violation = applyValidation(p);
 
         assertAll(
-                () -> assertHasPropertyViolation(violation, "name"),
-                () -> assertHasNotPropertyViolation(violation, "address")
+            () -> assertHasPropertyViolation(violation, "name"),
+            () -> assertHasNotPropertyViolation(violation, "address")
         );
 
         p.setApplyCascade(true);
@@ -30,8 +30,8 @@ public class CascadeValidationTest extends BaseConstraintViolationTest {
         violation.addAll( applyValidation(p) );
 
         assertAll(
-                () -> assertHasPropertyViolation(violation, "name"),
-                () -> assertHasPropertyViolation(violation, "address")
+            () -> assertHasPropertyViolation(violation, "name"),
+            () -> assertHasPropertyViolation(violation, "address")
         );
     }
 
