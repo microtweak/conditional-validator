@@ -43,16 +43,15 @@
 
     <properties>
         <!-- Compiler options -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Maven plugins version -->
-        <maven-compiler.version>3.10.1</maven-compiler.version>
+        <maven-compiler.version>3.11.0</maven-compiler.version>
         <maven-source.version>3.2.1</maven-source.version>
         <maven-jar.version>3.3.0</maven-jar.version>
         <maven-javadoc.version>3.5.0</maven-javadoc.version>
-        <maven-surefire-plugin.version>3.0.0-M9</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <serviceloader-maven-plugin.version>1.4.0</serviceloader-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -63,18 +62,19 @@
         <el.version>3.0.0</el.version>
 
         <!-- Java EE Specs Implementations -->
-        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
-        <bval.version>2.0.2</bval.version>
+        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <bval.version>2.0.6</bval.version>
         <glassfish-el.version>3.0.0</glassfish-el.version>
 
         <!-- Libraries -->
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.26</lombok.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <slf4j.version>1.7.26</slf4j.version>
+        <commons-jexl3.version>3.3</commons-jexl3.version>
+        <slf4j.version>2.0.7</slf4j.version>
         <reflections.version>0.10.2</reflections.version>
 
         <!-- Testing -->
-        <junit.version>5.9.2</junit.version>
+        <junit.version>5.9.3</junit.version>
     </properties>
 
     <distributionManagement>
@@ -101,6 +101,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-jexl3</artifactId>
+                <version>${commons-jexl3.version}</version>
             </dependency>
 
             <dependency>
@@ -144,8 +150,8 @@
                 <scope>provided</scope>
                 <exclusions>
                     <exclusion>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
+                        <groupId>jakarta.validation</groupId>
+                        <artifactId>jakarta.validation-api</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -233,8 +239,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler.version}</version>
                     <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
 
