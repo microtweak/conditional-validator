@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link Length @Length}
  */
-@WhenActivatedValidateAs(Length.class)
+@ValidateAs(Length.class)
 @Repeatable(LengthWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

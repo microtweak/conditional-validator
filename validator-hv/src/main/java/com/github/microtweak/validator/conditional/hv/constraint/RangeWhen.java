@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.OverridesAttribute;
@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link Range @Range}
  */
-@WhenActivatedValidateAs(Range.class)
+@ValidateAs(Range.class)
 @Repeatable(RangeWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

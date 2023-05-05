@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.internal.annotated;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -25,7 +25,7 @@ public interface ValidationPoint {
 
     static ValidationPoint of(AnnotatedElement element) {
         final List<Annotation> constraints = AnnotationHelper.findAnnotationsBy(element, (annotation) ->
-            annotation.annotationType().isAnnotationPresent(WhenActivatedValidateAs.class)
+            annotation.annotationType().isAnnotationPresent(ValidateAs.class)
         );
 
         if (ObjectUtils.isEmpty(constraints)) {

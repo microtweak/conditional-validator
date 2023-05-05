@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 
 import javax.validation.Payload;
 import javax.validation.constraints.Email;
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link Email @Email}
  */
-@WhenActivatedValidateAs(Email.class)
+@ValidateAs(Email.class)
 @Repeatable(EmailWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({ ANNOTATION_TYPE })
 @Retention(RUNTIME)
-public @interface WhenActivatedValidateAs {
+public @interface ValidateAs {
 
     /**
      * BeanValidation annotation/constraint class to use

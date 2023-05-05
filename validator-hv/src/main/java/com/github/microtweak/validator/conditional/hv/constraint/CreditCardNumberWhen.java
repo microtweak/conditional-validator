@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.OverridesAttribute;
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link CreditCardNumber @CreditCardNumber}
  */
-@WhenActivatedValidateAs(CreditCardNumber.class)
+@ValidateAs(CreditCardNumber.class)
 @Repeatable(CreditCardNumberWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

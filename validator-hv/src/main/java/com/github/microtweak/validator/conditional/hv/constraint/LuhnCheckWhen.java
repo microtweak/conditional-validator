@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.LuhnCheck;
 
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link LuhnCheck @LuhnCheck}
  */
-@WhenActivatedValidateAs(LuhnCheck.class)
+@ValidateAs(LuhnCheck.class)
 @Repeatable(LuhnCheckWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

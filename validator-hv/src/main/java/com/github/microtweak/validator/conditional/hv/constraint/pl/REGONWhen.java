@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint.pl;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.pl.REGON;
 
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link REGON @REGON}
  */
-@WhenActivatedValidateAs(REGON.class)
+@ValidateAs(REGON.class)
 @Repeatable(REGONWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

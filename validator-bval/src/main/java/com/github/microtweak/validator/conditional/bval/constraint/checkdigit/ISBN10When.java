@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.bval.constraint.checkdigit;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.apache.bval.extras.constraints.checkdigit.ISBN10;
 
 import javax.validation.Payload;
@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link ISBN10 @ISBN10}
  */
-@WhenActivatedValidateAs(ISBN10.class)
+@ValidateAs(ISBN10.class)
 @Documented
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)

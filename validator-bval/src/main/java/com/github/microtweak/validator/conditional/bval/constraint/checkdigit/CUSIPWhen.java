@@ -1,7 +1,6 @@
 package com.github.microtweak.validator.conditional.bval.constraint.checkdigit;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
-import org.apache.bval.extras.constraints.checkdigit.ABANumber;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.apache.bval.extras.constraints.checkdigit.CUSIP;
 
 import javax.validation.Payload;
@@ -16,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link CUSIP @CUSIP}
  */
-@WhenActivatedValidateAs(CUSIP.class)
+@ValidateAs(CUSIP.class)
 @Documented
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)

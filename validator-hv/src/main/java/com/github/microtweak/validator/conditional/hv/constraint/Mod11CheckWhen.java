@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.Mod11Check;
 import org.hibernate.validator.constraints.Mod11Check.ProcessingDirection;
 
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link Mod11Check @Mod11Check}
  */
-@WhenActivatedValidateAs(Mod11Check.class)
+@ValidateAs(Mod11Check.class)
 @Repeatable(Mod11CheckWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

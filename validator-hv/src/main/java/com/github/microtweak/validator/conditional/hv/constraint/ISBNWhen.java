@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.ISBN.Type;
 
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link ISBN @ISBN}
  */
-@WhenActivatedValidateAs(ISBN.class)
+@ValidateAs(ISBN.class)
 @Repeatable(ISBNWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

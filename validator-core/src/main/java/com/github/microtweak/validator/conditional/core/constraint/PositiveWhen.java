@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 
 import javax.validation.Payload;
 import javax.validation.constraints.Positive;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link Positive @Positive}
  */
-@WhenActivatedValidateAs(Positive.class)
+@ValidateAs(Positive.class)
 @Repeatable(PositiveWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.OverridesAttribute;
@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link URL @URL}
  */
-@WhenActivatedValidateAs(URL.class)
+@ValidateAs(URL.class)
 @Repeatable(URLWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

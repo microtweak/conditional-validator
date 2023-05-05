@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.internal;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
 import lombok.Getter;
 import lombok.ToString;
@@ -35,11 +35,11 @@ public class CvConstraintAnnotationDescriptor {
 
     @SuppressWarnings("unchecked")
     public CvConstraintAnnotationDescriptor(Annotation conditionalConstraint) {
-        final Class<? extends Annotation> actualConstraintType = conditionalConstraint.annotationType().getAnnotation(WhenActivatedValidateAs.class).value();
+        final Class<? extends Annotation> actualConstraintType = conditionalConstraint.annotationType().getAnnotation(ValidateAs.class).value();
 
         if (actualConstraintType == null) {
             throw new IllegalArgumentException(
-                format("Conditional constraint is not annotated with %s!", WhenActivatedValidateAs.class)
+                format("Conditional constraint is not annotated with %s!", ValidateAs.class)
             );
         }
 

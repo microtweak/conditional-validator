@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.EAN;
 import org.hibernate.validator.constraints.EAN.Type;
 
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link EAN @EAN}
  */
-@WhenActivatedValidateAs(EAN.class)
+@ValidateAs(EAN.class)
 @Repeatable(EANWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

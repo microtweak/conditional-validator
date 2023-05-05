@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.internal.literal;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import com.github.microtweak.validator.conditional.core.internal.helper.AnnotationHelper;
 
 import javax.validation.Payload;
@@ -17,7 +17,7 @@ public class ConstraintLiteral<A extends Annotation> {
     public ConstraintLiteral(Class<? extends A> annotationType) {
         this.annotationType = annotationType;
 
-        final WhenActivatedValidateAs validateAs = annotationType.getAnnotation(WhenActivatedValidateAs.class);
+        final ValidateAs validateAs = annotationType.getAnnotation(ValidateAs.class);
         this.actualAnnotationType = validateAs != null ? validateAs.value() : null;
     }
 

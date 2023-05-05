@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.tests;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import com.github.microtweak.validator.conditional.tags.CheckListTest;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -65,7 +65,7 @@ public class ConditionalValidatorRequirementsTests {
     public void isConditionalValidatorConstraint(Class<Annotation> constraint) throws NoSuchMethodException {
         assertTrue( constraint.getSimpleName().endsWith("When") );
 
-        WhenActivatedValidateAs validateAs = constraint.getAnnotation(WhenActivatedValidateAs.class);
+        ValidateAs validateAs = constraint.getAnnotation(ValidateAs.class);
 
         assertAll(
             () -> assertNotNull(validateAs),

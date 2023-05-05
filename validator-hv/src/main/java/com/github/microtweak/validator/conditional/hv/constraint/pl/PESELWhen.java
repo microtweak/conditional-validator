@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint.pl;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.pl.PESEL;
 
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link PESEL @PESEL}
  */
-@WhenActivatedValidateAs(PESEL.class)
+@ValidateAs(PESEL.class)
 @Repeatable(PESELWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

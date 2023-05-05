@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 
 import javax.validation.Payload;
 import javax.validation.constraints.DecimalMax;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link DecimalMax @DecimalMax}
  */
-@WhenActivatedValidateAs(DecimalMax.class)
+@ValidateAs(DecimalMax.class)
 @Repeatable(DecimalMaxWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

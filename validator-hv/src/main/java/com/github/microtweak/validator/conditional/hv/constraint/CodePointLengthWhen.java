@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.CodePointLength;
 import org.hibernate.validator.constraints.CodePointLength.NormalizationStrategy;
 
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link CodePointLength @CodePointLength}
  */
-@WhenActivatedValidateAs(CodePointLength.class)
+@ValidateAs(CodePointLength.class)
 @Repeatable(CodePointLengthWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })

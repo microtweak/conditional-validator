@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.bval.constraint.net;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.apache.bval.extras.constraints.net.InetAddress;
 
 import javax.validation.Payload;
@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link InetAddress @InetAddress}
  */
-@WhenActivatedValidateAs(InetAddress.class)
+@ValidateAs(InetAddress.class)
 @Documented
 @Target({ FIELD, ANNOTATION_TYPE, PARAMETER })
 @Retention(RUNTIME)

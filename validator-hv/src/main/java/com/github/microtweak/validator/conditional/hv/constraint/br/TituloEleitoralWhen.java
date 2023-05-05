@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.hv.constraint.br;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 import org.hibernate.validator.constraints.br.TituloEleitoral;
 
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link TituloEleitoral @TituloEleitoral}
  */
-@WhenActivatedValidateAs(TituloEleitoral.class)
+@ValidateAs(TituloEleitoral.class)
 @Repeatable(TituloEleitoralWhen.List.class)
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)

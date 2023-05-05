@@ -1,6 +1,6 @@
 package com.github.microtweak.validator.conditional.core.constraint;
 
-import com.github.microtweak.validator.conditional.core.WhenActivatedValidateAs;
+import com.github.microtweak.validator.conditional.core.ValidateAs;
 
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Conditional version of constraint {@link NotNull @NotNull}
  */
-@WhenActivatedValidateAs(NotNull.class)
+@ValidateAs(NotNull.class)
 @Repeatable(NotNullWhen.List.class)
 @Documented
 @Target({ METHOD, FIELD })
