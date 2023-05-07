@@ -7,7 +7,7 @@
 
     <groupId>com.github.microtweak</groupId>
     <artifactId>conditional-validator</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
