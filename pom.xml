@@ -13,7 +13,9 @@
     <modules>
         <module>validator-core</module>
         <module>validator-hv</module>
+        <!--
         <module>validator-bval</module>
+        -->
     </modules>
 
     <name>Conditional Validator</name>
@@ -57,14 +59,14 @@
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 
         <!-- Java EE Specs -->
-        <cdi.version>2.0</cdi.version>
-        <bean-validation.version>2.0.1.Final</bean-validation.version>
-        <el.version>3.0.0</el.version>
+        <cdi.version>4.0.1</cdi.version>
+        <bean-validation.version>3.0.2</bean-validation.version>
+        <el.version>5.0.1</el.version>
 
         <!-- Java EE Specs Implementations -->
-        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <bval.version>2.0.6</bval.version>
-        <glassfish-el.version>3.0.0</glassfish-el.version>
+        <glassfish-el.version>5.0.0-M1</glassfish-el.version>
 
         <!-- Libraries -->
         <lombok.version>1.18.26</lombok.version>
@@ -123,22 +125,22 @@
             </dependency>
 
             <dependency>
-                <groupId>javax.enterprise</groupId>
-                <artifactId>cdi-api</artifactId>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${cdi.version}</version>
                 <scope>provided</scope>
             </dependency>
 
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
                 <version>${bean-validation.version}</version>
                 <scope>provided</scope>
             </dependency>
 
             <dependency>
-                <groupId>javax.el</groupId>
-                <artifactId>javax.el-api</artifactId>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
                 <version>${el.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -204,7 +206,7 @@
 
             <dependency>
                 <groupId>org.glassfish</groupId>
-                <artifactId>javax.el</artifactId>
+                <artifactId>jakarta.el</artifactId>
                 <version>${glassfish-el.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -269,7 +271,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc.version}</version>
                     <configuration>
-                        <source>8</source>
+                        <source>${java.version}</source>
                         <doclint>reference</doclint>
                     </configuration>
                     <executions>

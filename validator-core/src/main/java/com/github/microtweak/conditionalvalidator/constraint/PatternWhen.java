@@ -2,8 +2,8 @@ package com.github.microtweak.conditionalvalidator.constraint;
 
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 
-import javax.validation.Payload;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.Pattern;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -38,7 +38,7 @@ public @interface PatternWhen {
 	/**
 	 * @return the error message template
 	 */
-	String message() default "{javax.validation.constraints.Pattern.message}";
+	String message() default "{jakarta.validation.constraints.Pattern.message}";
 
 	/**
 	 * @return the groups the constraint belongs to

@@ -3,9 +3,9 @@ package com.github.microtweak.conditionalvalidator.internal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.ValidationException;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ValidationException;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import static java.lang.String.format;
 

@@ -4,7 +4,7 @@ import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.hibernate.validator.constraints.EAN;
 import org.hibernate.validator.constraints.EAN.Type;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

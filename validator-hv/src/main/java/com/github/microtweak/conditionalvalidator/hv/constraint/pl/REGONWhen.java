@@ -3,7 +3,7 @@ package com.github.microtweak.conditionalvalidator.hv.constraint.pl;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.hibernate.validator.constraints.pl.REGON;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

@@ -19,8 +19,8 @@ import com.github.microtweak.conditionalvalidator.tags.ProviderTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.constraints.*;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;

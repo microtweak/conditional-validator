@@ -3,7 +3,7 @@ package com.github.microtweak.conditionalvalidator.bval.constraint.checkdigit;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.apache.bval.extras.constraints.checkdigit.EAN13;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

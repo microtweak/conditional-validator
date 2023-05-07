@@ -2,8 +2,8 @@ package com.github.microtweak.conditionalvalidator.internal.helper;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.*;

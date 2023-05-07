@@ -2,8 +2,8 @@ package com.github.microtweak.conditionalvalidator.constraint;
 
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 
-import javax.validation.Payload;
-import javax.validation.constraints.Positive;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.Positive;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -25,7 +25,7 @@ public @interface PositiveWhen {
 
 	String expression();
 
-	String message() default "{javax.validation.constraints.Positive.message}";
+	String message() default "{jakarta.validation.constraints.Positive.message}";
 
 	Class<?>[] groups() default { };
 

@@ -12,8 +12,8 @@ import com.github.microtweak.conditionalvalidator.tags.ProviderTest;
 import org.apache.commons.lang3.function.TriFunction;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import java.lang.annotation.Annotation;
 import java.util.Locale;
 import java.util.function.BiFunction;

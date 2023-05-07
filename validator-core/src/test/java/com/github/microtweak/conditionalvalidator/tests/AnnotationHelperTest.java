@@ -8,10 +8,10 @@ import com.github.microtweak.conditionalvalidator.internal.FakeAnnotatedElement;
 import com.github.microtweak.conditionalvalidator.tags.CoreTest;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;

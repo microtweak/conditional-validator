@@ -2,8 +2,8 @@ package com.github.microtweak.conditionalvalidator.constraint;
 
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 
-import javax.validation.Payload;
-import javax.validation.constraints.NegativeOrZero;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.NegativeOrZero;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -25,7 +25,7 @@ public @interface NegativeOrZeroWhen {
 
 	String expression();
 
-	String message() default "{javax.validation.constraints.NegativeOrZero.message}";
+	String message() default "{jakarta.validation.constraints.NegativeOrZero.message}";
 
 	Class<?>[] groups() default { };
 

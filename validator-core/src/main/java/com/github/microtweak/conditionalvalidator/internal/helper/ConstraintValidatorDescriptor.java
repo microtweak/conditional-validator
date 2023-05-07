@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.ClassUtils;
 
-import javax.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
