@@ -69,8 +69,8 @@
                 <artifactId>serviceloader-maven-plugin</artifactId>
                 <configuration>
                     <services>
-                        <param>com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider</param>
-                        <param>com.github.microtweak.validator.conditional.core.spi.PlatformProvider</param>
+                        <param>com.github.microtweak.conditionalvalidator.spi.BeanValidationImplementationProvider</param>
+                        <param>com.github.microtweak.conditionalvalidator.spi.PlatformProvider</param>
                     </services>
                 </configuration>
             </plugin>
@@ -99,7 +99,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <excludePackageNames>com.github.microtweak.validator.conditional.core.exception.*:com.github.microtweak.validator.conditional.core.internal.*:com.github.microtweak.validator.conditional.core.spi.*</excludePackageNames>
+                    <excludePackageNames>
+                        com.github.microtweak.conditionalvalidator.exception.*:com.github.microtweak.conditionalvalidator.internal.*:com.github.microtweak.conditionalvalidator.spi.*</excludePackageNames>
                     <sourceFileExcludes>
                         <exclude>**/DelegatedConditionalConstraintValidator.java</exclude>
                         <exclude>**/ExpressionEvaluator.java</exclude>

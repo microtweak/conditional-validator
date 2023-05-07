@@ -73,7 +73,7 @@
                 <artifactId>serviceloader-maven-plugin</artifactId>
                 <configuration>
                     <services>
-                        <param>com.github.microtweak.validator.conditional.core.spi.BeanValidationImplementationProvider</param>
+                        <param>com.github.microtweak.conditionalvalidator.spi.BeanValidationImplementationProvider</param>
                     </services>
                 </configuration>
             </plugin>
