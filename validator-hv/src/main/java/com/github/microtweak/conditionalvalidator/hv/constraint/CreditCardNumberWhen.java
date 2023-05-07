@@ -3,8 +3,8 @@ package com.github.microtweak.conditionalvalidator.hv.constraint;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-import javax.validation.OverridesAttribute;
-import javax.validation.Payload;
+import jakarta.validation.OverridesAttribute;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

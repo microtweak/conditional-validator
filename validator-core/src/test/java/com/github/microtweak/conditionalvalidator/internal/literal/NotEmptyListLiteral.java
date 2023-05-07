@@ -1,6 +1,6 @@
 package com.github.microtweak.conditionalvalidator.internal.literal;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import java.lang.annotation.Annotation;
 
 public class NotEmptyListLiteral implements NotEmpty.List {

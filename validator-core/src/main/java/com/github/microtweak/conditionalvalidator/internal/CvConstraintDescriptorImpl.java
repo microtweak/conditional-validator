@@ -3,10 +3,10 @@ package com.github.microtweak.conditionalvalidator.internal;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.*;
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.ValidateUnwrappedValue;
-import javax.validation.valueextraction.Unwrapping;
+import jakarta.validation.*;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.ValidateUnwrappedValue;
+import jakarta.validation.valueextraction.Unwrapping;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.List;

@@ -2,8 +2,8 @@ package com.github.microtweak.conditionalvalidator.constraint;
 
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 
-import javax.validation.Payload;
-import javax.validation.constraints.DecimalMax;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.DecimalMax;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -25,7 +25,7 @@ public @interface DecimalMaxWhen {
 
 	String expression();
 
-	String message() default "{javax.validation.constraints.DecimalMax.message}";
+	String message() default "{jakarta.validation.constraints.DecimalMax.message}";
 
 	Class<?>[] groups() default { };
 

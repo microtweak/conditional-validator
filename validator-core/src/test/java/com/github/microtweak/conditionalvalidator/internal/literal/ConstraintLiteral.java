@@ -3,7 +3,7 @@ package com.github.microtweak.conditionalvalidator.internal.literal;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import com.github.microtweak.conditionalvalidator.internal.helper.AnnotationHelper;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;

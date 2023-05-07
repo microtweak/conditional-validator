@@ -1,6 +1,6 @@
 package com.github.microtweak.conditionalvalidator.internal.literal;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.lang.annotation.Annotation;
 
 public class NotNullListLiteral implements NotNull.List {

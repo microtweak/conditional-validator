@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.Validate;
 
-import javax.validation.ConstraintTarget;
-import javax.validation.Payload;
-import javax.validation.groups.Default;
+import jakarta.validation.ConstraintTarget;
+import jakarta.validation.Payload;
+import jakarta.validation.groups.Default;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Collections;

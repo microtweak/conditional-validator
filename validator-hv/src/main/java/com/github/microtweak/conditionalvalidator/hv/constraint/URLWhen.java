@@ -3,9 +3,9 @@ package com.github.microtweak.conditionalvalidator.hv.constraint;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.OverridesAttribute;
-import javax.validation.Payload;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.OverridesAttribute;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.Pattern;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

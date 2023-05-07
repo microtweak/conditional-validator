@@ -5,7 +5,7 @@ import com.github.microtweak.conditionalvalidator.bean.Address;
 import com.github.microtweak.conditionalvalidator.bean.Person;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertAll;

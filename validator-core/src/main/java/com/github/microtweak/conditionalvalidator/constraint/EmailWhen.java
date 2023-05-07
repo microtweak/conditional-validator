@@ -2,9 +2,9 @@ package com.github.microtweak.conditionalvalidator.constraint;
 
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 
-import javax.validation.Payload;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern.Flag;
+import jakarta.validation.Payload;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern.Flag;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -26,7 +26,7 @@ public @interface EmailWhen {
 
 	String expression();
 
-	String message() default "{javax.validation.constraints.Email.message}";
+	String message() default "{jakarta.validation.constraints.Email.message}";
 
 	Class<?>[] groups() default { };
 

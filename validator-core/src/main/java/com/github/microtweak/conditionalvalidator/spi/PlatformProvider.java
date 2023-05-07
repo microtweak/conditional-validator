@@ -1,16 +1,16 @@
 package com.github.microtweak.conditionalvalidator.spi;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.CDI;
-import javax.validation.ConstraintValidatorFactory;
-import javax.validation.MessageInterpolator;
-import javax.validation.ValidatorFactory;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.validation.ConstraintValidatorFactory;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ValidatorFactory;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.ServiceLoader;
 import java.util.Set;
 
-import static javax.validation.Validation.buildDefaultValidatorFactory;
+import static jakarta.validation.Validation.buildDefaultValidatorFactory;
 
 public interface PlatformProvider {
 

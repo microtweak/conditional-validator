@@ -4,7 +4,7 @@ import com.github.microtweak.conditionalvalidator.exception.UnsupportedBeanValid
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
-import javax.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidator;
 import java.util.ServiceLoader;
 import java.util.Set;
 

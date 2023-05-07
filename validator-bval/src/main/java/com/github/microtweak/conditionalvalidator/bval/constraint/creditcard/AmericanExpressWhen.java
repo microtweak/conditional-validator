@@ -3,7 +3,7 @@ package com.github.microtweak.conditionalvalidator.bval.constraint.creditcard;
 import com.github.microtweak.conditionalvalidator.ValidateAs;
 import org.apache.bval.extras.constraints.creditcard.AmericanExpress;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

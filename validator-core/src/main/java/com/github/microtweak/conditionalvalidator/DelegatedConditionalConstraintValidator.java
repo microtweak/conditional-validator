@@ -9,10 +9,10 @@ import com.github.microtweak.conditionalvalidator.spi.BeanValidationImplementati
 import com.github.microtweak.conditionalvalidator.spi.PlatformProvider;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.MessageInterpolator;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import java.lang.annotation.Annotation;
 
 @Slf4j
