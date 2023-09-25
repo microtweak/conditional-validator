@@ -24,7 +24,7 @@ public class ConstraintValidatorRegistrar {
     private <CV extends ConstraintValidator<?, ?>> Stream<ConstraintValidatorDescriptor> transformValidatorsClassToDescriptors(Collection<Class<? extends CV>> validators) {
         return validators.stream()
             .filter(
-                cls -> !Modifier.isInterface(cls.getModifiers()) && !Modifier.isAbstract(cls.getModifiers())
+                cls -> !Modifier.isInterface(cls.getModifiers()) && !Modifier.isAbstract(cls.getModifiers()) && !cls.isAnonymousClass()
             )
             .map(constraintValidatorClass -> {
                 try {
